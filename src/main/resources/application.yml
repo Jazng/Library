@@ -1,0 +1,28 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: library-management-system
+  profiles:
+    active: dev
+
+mybatis:
+  mapper-locations: classpath:dao/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.self.library.entity
+
+logging:
+  level:
+    com.self.library.dao: debug
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
