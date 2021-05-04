@@ -12,25 +12,25 @@ import java.util.List;
 @Repository
 public interface UserDao
 {
-    long countByExample(UserExample example);
+    Long countByExample(UserExample example);
 
-    int deleteByExample(UserExample example);
+    Integer deleteByExample(UserExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    Integer deleteByPrimaryKey(Integer id);
 
-    int insert(UserEntity record);
+    Integer insert(UserEntity record);
 
-    int insertSelective(UserEntity record);
+    Integer insertSelective(UserEntity record);
 
     List<UserEntity> selectByExample(UserExample example);
 
     UserEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") UserEntity record, @Param("example") UserExample example);
+    Integer updateByExampleSelective(@Param("record") UserEntity record, @Param("example") UserExample example);
 
-    int updateByExample(@Param("record") UserEntity record, @Param("example") UserExample example);
+    Integer updateByExample(@Param("record") UserEntity record, @Param("example") UserExample example);
 
-    int updateByPrimaryKeySelective(UserEntity record);
+    Integer updateByPrimaryKeySelective(UserEntity record);
 
-    int updateByPrimaryKey(UserEntity record);
+    Integer updateByPrimaryKey(UserEntity record);
 }

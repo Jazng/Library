@@ -155,7 +155,7 @@ public class AdminServiceImpl implements AdminService
         }
         catch (Exception e)
         {
-            log.error(LOGIN_ERROR_MSG, e);
+            log.error(LOGIN_ERROR, e);
         }
         Integer role = user.getRole();
         return Pair.of(isHave, role != null && role.equals(1) ? user : null);
@@ -165,17 +165,61 @@ public class AdminServiceImpl implements AdminService
     public boolean destroy(UserEntity userEntity)
     {
         boolean result = false;
-        UserExample example = new UserExample();
-        UserExample.Criteria criteria = example.createCriteria();
-        criteria.andUsernameEqualTo(userEntity.getUsername());
-        criteria.andPasswordEqualTo(userEntity.getPassword());
-        userEntity.setDestroy(Boolean.TRUE);
-        int count = userDao.updateByExampleSelective(userEntity, example);
-        if (count > 0)
+        try
         {
-            result = true;
+            UserExample example = new UserExample();
+            UserExample.Criteria criteria = example.createCriteria();
+            criteria.andUsernameEqualTo(userEntity.getUsername());
+            criteria.andPasswordEqualTo(userEntity.getPassword());
+            userEntity.setDestroy(Boolean.TRUE);
+            userEntity.setModifyUser(MODIFY_USER);
+            int count = userDao.updateByExampleSelective(userEntity, example);
+            if (count > 0)
+            {
+                result = true;
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(DESTROY_ERROR, e);
         }
 
         return result;
+    }
+
+    @Override
+    public boolean modify(UserEntity userEntity)
+    {
+        boolean result = false;
+        try
+        {
+            userEntity.setModifyUser(MODIFY_USER);
+            Integer count = userDao.updateByPrimaryKeySelective(userEntity);
+            if (count == 1)
+            {
+                result = true;
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(USER + MODIFY_ERROR, e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public UserEntity findById(Integer id)
+    {
+        try
+        {
+            return userDao.selectByPrimaryKey(id);
+        }
+        catch (Exception e)
+        {
+            log.error(QUERY_USER_ERROR, e);
+        }
+
+        return null;
     }
 }

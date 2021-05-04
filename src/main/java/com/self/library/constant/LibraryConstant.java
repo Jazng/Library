@@ -49,6 +49,7 @@ public interface LibraryConstant
     //注册公共信息
     String REGISTER_SUCCESS_MSG = "注册成功";
     String REGISTER_FAIL_MSG = "注册失败";
+    String REGISTER_ERROR_MSG = "注册出错";
     String REGISTER_ENTER_MSG = "信息填写不完整，请填写完整";
     String USERNAME_EXIST = "账号已存在，请重新输入";
     String NICKNAME_ROLE_AGE_SEX_EXIST = "基本信息已存在，请勿重复注册";
@@ -56,16 +57,28 @@ public interface LibraryConstant
 
     //登录公共信息
     String LOGIN_SUCCESS_MSG = "登录成功";
+    String LOGIN_ERROR = "登录出错";
     String LOGIN_FAIL_MSG = "账号或密码错误";
     String LOGIN_ERROR_MSG = "账号或密码错误";
     String LOGIN_NO_PERMISSION_MSG = "账号权限不够";
     String LOGIN_ENTER_MSG = "账号或密码为空，请核对";
 
-    //注销账号
-    String DESTROY = "注销成功";
+    //注销账号和修改账户信息
+    String DESTROY_SUCCESS = "注销成功";
+    String DESTROY_FAIL = "注销失败";
+    String DESTROY_ERROR = "注销出错";
+    String MODIFY_SUCCESS = "修改成功";
+    String MODIFY_FAIL = "修改失败";
+    String MODIFY_ERROR = "修改出错";
 
     //公共
     String COMMON_ZERO = "0";
     String COMMON_ONE = "1";
     String RESULT_FAIL = "fail";
+    String RETRY = "请重试";
+
+    String USER = "账户";
+
+    //查询
+    String QUERY_USER_ERROR = "查询用户出错";
 }

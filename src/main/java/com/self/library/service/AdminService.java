@@ -19,4 +19,8 @@ public interface AdminService
     public Pair<Boolean, UserEntity> login(UserEntity userEntity);
 
     public boolean destroy(UserEntity userEntity);
+
+    public boolean modify(UserEntity userEntity);
+
+    public UserEntity findById(Integer id);
 }

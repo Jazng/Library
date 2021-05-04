@@ -40,9 +40,9 @@ public class ResultDTO<T extends Serializable> implements Serializable
     public static final String MSG_STRING = "msg";
 
     /**
-     * 默认返回信息
+     * 默认返回信息，一般为success，当遇到异常则为fail
      */
-    @ApiModelProperty("响应信息")
+    @ApiModelProperty(value = "响应信息")
     private String msg = "success";
 
     /**
@@ -59,7 +59,7 @@ public class ResultDTO<T extends Serializable> implements Serializable
     /**
      * 默认返回成功
      */
-    @ApiModelProperty("响应编码")
+    @ApiModelProperty(value = "响应编码", example = "1")
     private int code = SUCCESS;
     /**
      * 返回数据
@@ -112,6 +112,13 @@ public class ResultDTO<T extends Serializable> implements Serializable
         this.code = code;
     }
 
+    public ResultDTO(int code, T data)
+    {
+        super();
+        this.code = code;
+        this.data = data;
+    }
+
     public ResultDTO(String msg, int code, String exceptionCode)
     {
         super();
@@ -120,15 +127,18 @@ public class ResultDTO<T extends Serializable> implements Serializable
         this.exceptionCode = exceptionCode;
     }
 
-    public boolean ok() {
+    public boolean ok()
+    {
         return code == SUCCESS;
     }
 
-    public boolean failed() {
+    public boolean failed()
+    {
         return code == FAIL;
     }
 
-    public boolean noData() {
+    public boolean noData()
+    {
         return failed() || NumberUtils.isNoneValue(data);
     }
 }

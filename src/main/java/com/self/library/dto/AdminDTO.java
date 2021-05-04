@@ -23,4 +23,6 @@ public class AdminDTO implements Serializable
     private String token;
     @ApiModelProperty("用户实体")
     private UserEntity user;
+    @ApiModelProperty("错误信息")
+    private String msg;
 }
