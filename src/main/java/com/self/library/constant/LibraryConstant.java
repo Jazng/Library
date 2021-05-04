@@ -61,6 +61,9 @@ public interface LibraryConstant
     String LOGIN_NO_PERMISSION_MSG = "账号权限不够";
     String LOGIN_ENTER_MSG = "账号或密码为空，请核对";
 
+    //注销账号
+    String DESTROY = "注销成功";
+
     //公共
     String COMMON_ZERO = "0";
     String COMMON_ONE = "1";

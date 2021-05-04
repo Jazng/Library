@@ -38,7 +38,7 @@ public class AdminController
 
     @PostMapping("/register")
     @ApiOperation("注册接口")
-    @ApiImplicitParam(name = "userEntity", value = "注册信息",required = true)
+    @ApiImplicitParam(name = "userEntity", value = "注册信息", required = true)
     public ResultDTO<ArrayList<String>> register(@RequestBody UserEntity userEntity)
     {
         ResultDTO<ArrayList<String>> result = null;
@@ -121,5 +121,21 @@ public class AdminController
         }
 
         return new ResultDTO<>(msg, FAIL);
+    }
+
+    @PostMapping("/destroy")
+    @ApiOperation("注销接口")
+    @ApiImplicitParam(name = "userEntity", value = "注销信息（ps：只需要username和password）", required = true)
+    public ResultDTO<String> destroy(@RequestBody UserEntity userEntity)
+    {
+        if (userEntity != null)
+        {
+            boolean destroy = adminService.destroy(userEntity);
+            if (destroy)
+            {
+                return new ResultDTO<>(DESTROY);
+            }
+        }
+        return new ResultDTO<>(RESULT_FAIL, FAIL);
     }
 }

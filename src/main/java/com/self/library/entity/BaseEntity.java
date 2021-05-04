@@ -20,11 +20,11 @@ import java.util.Date;
 public class BaseEntity implements Serializable
 {
     private static final long serialVersionUID = -4936915402126894679L;
-    @ApiModelProperty(value = "创建者",example = LibraryConstant.CREATE_USER)
+    @ApiModelProperty(value = "创建者", example = LibraryConstant.CREATE_USER)
     private String createUser;
     @ApiModelProperty("创建时间（ps：插入数据库时自动插入当前系统时间）")
     private Date createDate;
-    @ApiModelProperty(value = "修改者",example = LibraryConstant.MODIFY_USER)
+    @ApiModelProperty(value = "修改者", example = LibraryConstant.MODIFY_USER)
     private String modifyUser;
     @ApiModelProperty("创建时间（ps：更新数据库时自动插入当前系统时间）")
     private Date modifyDate;

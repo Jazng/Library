@@ -8,7 +8,7 @@ import lombok.Data;
 @ApiModel("用户实体")
 public class UserEntity extends BaseEntity
 {
-    private static final long serialVersionUID = -6365016377621683467L;
+    private static final long serialVersionUID = 907300784365768032L;
 
     @ApiModelProperty("用户ID")
     private Integer id;
@@ -28,4 +28,6 @@ public class UserEntity extends BaseEntity
     private Integer age;
     @ApiModelProperty(value = "性别",example = "男")
     private Integer sex;
+    @ApiModelProperty(value = "是否注销")
+    private Boolean destroy;
 }

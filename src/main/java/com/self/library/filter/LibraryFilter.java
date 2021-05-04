@@ -24,7 +24,7 @@ import static com.self.library.constant.LibraryConstant.CHINESE_COLON;
 public class LibraryFilter implements Filter
 {
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException
+    public void init(FilterConfig filterConfig)
     {
         log.info(this.getClass().getName() + CHINESE_COLON + FILTER_INIT);
     }

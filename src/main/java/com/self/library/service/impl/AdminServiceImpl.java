@@ -1,7 +1,6 @@
 package com.self.library.service.impl;
 
 import com.self.library.dao.UserDao;
-import com.self.library.dto.ResultDTO;
 import com.self.library.entity.UserEntity;
 import com.self.library.entity.UserExample;
 import com.self.library.service.AdminService;
@@ -37,9 +36,6 @@ public class AdminServiceImpl implements AdminService
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private UserExample userExample;
-
     /**
      * 若不满足，返回所有不满足条件信息，而不是遇到不满足就立即返回，二是收集所有不满足信息一并返回
      *
@@ -62,6 +58,7 @@ public class AdminServiceImpl implements AdminService
                 //查询实体
                 UserExample.Criteria criteria = example.createCriteria();
                 criteria.andUsernameEqualTo(userEntity.getUsername());
+                criteria.andDestroyNotEqualTo(Boolean.TRUE);
                 List<UserEntity> list = userDao.selectByExample(example);
                 if (CollectionUtils.isNotEmpty(list))
                 {
@@ -79,6 +76,7 @@ public class AdminServiceImpl implements AdminService
                 criteria.andRoleEqualTo(userEntity.getRole());
                 criteria.andAgeEqualTo(userEntity.getAge());
                 criteria.andSexEqualTo(userEntity.getSex());
+                criteria.andDestroyNotEqualTo(Boolean.TRUE);
                 List<UserEntity> list = userDao.selectByExample(example);
                 if (CollectionUtils.isNotEmpty(list))
                 {
@@ -93,6 +91,7 @@ public class AdminServiceImpl implements AdminService
                 UserExample example = new UserExample();
                 UserExample.Criteria criteria = example.createCriteria();
                 criteria.andPhoneEqualTo(userEntity.getPhone());
+                criteria.andDestroyNotEqualTo(Boolean.TRUE);
                 List<UserEntity> list = userDao.selectByExample(example);
                 if (CollectionUtils.isNotEmpty(list))
                 {
@@ -112,6 +111,7 @@ public class AdminServiceImpl implements AdminService
                 {
                     userEntity.setCreateUser(CREATE_USER);
                 }
+                userEntity.setDestroy(Boolean.FALSE);
                 int count = userDao.insertSelective(userEntity);
                 if (count == 1)
                 {
@@ -139,11 +139,13 @@ public class AdminServiceImpl implements AdminService
         boolean isHave = false;
         try
         {
-            UserExample.Criteria criteria = userExample.createCriteria();
+            UserExample example = new UserExample();
+            UserExample.Criteria criteria = example.createCriteria();
             criteria.andUsernameEqualTo(userEntity.getUsername());
             criteria.andPasswordEqualTo(userEntity.getPassword());
-            List<UserEntity> userList = userDao.selectByExample(userExample);
-            userExample.clear();
+            criteria.andDestroyNotEqualTo(Boolean.TRUE);
+            List<UserEntity> userList = userDao.selectByExample(example);
+            example.clear();
             if (CollectionUtils.isNotEmpty(userList))
             {
                 isHave = true;
@@ -157,5 +159,23 @@ public class AdminServiceImpl implements AdminService
         }
         Integer role = user.getRole();
         return Pair.of(isHave, role != null && role.equals(1) ? user : null);
+    }
+
+    @Override
+    public boolean destroy(UserEntity userEntity)
+    {
+        boolean result = false;
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUsernameEqualTo(userEntity.getUsername());
+        criteria.andPasswordEqualTo(userEntity.getPassword());
+        userEntity.setDestroy(Boolean.TRUE);
+        int count = userDao.updateByExampleSelective(userEntity, example);
+        if (count > 0)
+        {
+            result = true;
+        }
+
+        return result;
     }
 }

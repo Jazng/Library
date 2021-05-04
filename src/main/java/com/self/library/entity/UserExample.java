@@ -1,12 +1,9 @@
 package com.self.library.entity;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Component
 public class UserExample
 {
     protected String orderByClause;
@@ -837,6 +834,78 @@ public class UserExample
         public Criteria andSexNotBetween(Integer value1, Integer value2)
         {
             addCriterion("sex not between", value1, value2, "sex");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyIsNull()
+        {
+            addCriterion("destroy is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyIsNotNull()
+        {
+            addCriterion("destroy is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyEqualTo(Boolean value)
+        {
+            addCriterion("destroy =", value, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyNotEqualTo(Boolean value)
+        {
+            addCriterion("destroy <>", value, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyGreaterThan(Boolean value)
+        {
+            addCriterion("destroy >", value, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyGreaterThanOrEqualTo(Boolean value)
+        {
+            addCriterion("destroy >=", value, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyLessThan(Boolean value)
+        {
+            addCriterion("destroy <", value, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyLessThanOrEqualTo(Boolean value)
+        {
+            addCriterion("destroy <=", value, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyIn(List<Boolean> values)
+        {
+            addCriterion("destroy in", values, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyNotIn(List<Boolean> values)
+        {
+            addCriterion("destroy not in", values, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyBetween(Boolean value1, Boolean value2)
+        {
+            addCriterion("destroy between", value1, value2, "destroy");
+            return (Criteria) this;
+        }
+
+        public Criteria andDestroyNotBetween(Boolean value1, Boolean value2)
+        {
+            addCriterion("destroy not between", value1, value2, "destroy");
             return (Criteria) this;
         }
 

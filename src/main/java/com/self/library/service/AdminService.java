@@ -17,4 +17,6 @@ public interface AdminService
     public Pair<Boolean, List<String>> register(UserEntity userEntity);
 
     public Pair<Boolean, UserEntity> login(UserEntity userEntity);
+
+    public boolean destroy(UserEntity userEntity);
 }
