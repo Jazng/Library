@@ -13,6 +13,7 @@ public interface LibraryConstant
     String TOKEN_KEY = "Library&Management&System";
 
     //JWT
+    String USER_ID = "id";
     String USERNAME = "username";
     String NICKNAME = "nickname";
     String ROLE = "role";
@@ -70,6 +71,8 @@ public interface LibraryConstant
     String MODIFY_SUCCESS = "修改成功";
     String MODIFY_FAIL = "修改失败";
     String MODIFY_ERROR = "修改出错";
+    String LOGOUT_SUCCESS = "退出成功";
+    String LOGOUT_FAIL = "退出失败";
 
     //公共
     String COMMON_ZERO = "0";

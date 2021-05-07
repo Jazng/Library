@@ -1,5 +1,6 @@
 package com.self.library.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.self.library.dto.AdminDTO;
 import com.self.library.dto.ResultDTO;
 import com.self.library.entity.UserEntity;
@@ -14,10 +15,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static com.self.library.constant.LibraryConstant.*;
 import static com.self.library.dto.ResultDTO.FAIL;
+import static com.self.library.dto.ResultDTO.SUCCESS;
 
 /**
  * @Author Administrator
@@ -82,6 +85,7 @@ public class AdminController
                     if (user != null)
                     {
                         Map<String, Object> map = new HashMap<>(4);
+                        map.put(USER_ID, user.getId());
                         map.put(USERNAME, user.getUsername());
                         map.put(NICKNAME, user.getNickname());
                         map.put(ROLE, user.getRole());
@@ -179,5 +183,28 @@ public class AdminController
             log.error(QUERY_USER_ERROR, e);
         }
         return new ResultDTO<>(FAIL, null);
+    }
+
+    @GetMapping("/logout")
+    @ApiOperation("退出登录接口")
+    @ApiImplicitParam(name = "id", value = "用户ID", dataType = "integer", required = true, defaultValue = "1", example = "1")
+    public ResultDTO<Integer> logout(@RequestParam("id") Integer id, HttpServletRequest request)
+    {
+        if (id != null && id > 0)
+        {
+            Pair<Boolean, DecodedJWT> pair = JWTUtils.verify(request.getHeader("Authorization"));
+            if (pair.getLeft())
+            {
+                DecodedJWT decodedJWT = pair.getRight();
+                Integer userId = decodedJWT.getClaim(USER_ID).asInt();
+                if (id.equals(userId))
+                {
+                    ResultDTO<Integer> result = new ResultDTO<>(LOGOUT_SUCCESS, SUCCESS);
+                    result.setData(id);
+                    return result;
+                }
+            }
+        }
+        return new ResultDTO<>(LOGOUT_FAIL, FAIL);
     }
 }

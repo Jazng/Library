@@ -12,6 +12,8 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @Author Administrator
  * @Title: Swagger配置
@@ -28,6 +30,7 @@ public class SwaggerConfig
         Profiles profiles = Profiles.of("dev", "pro");
         boolean b = environment.acceptsProfiles(profiles);
         return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo())
+                .ignoredParameterTypes(HttpServletRequest.class)
                 .enable(b)
                 .groupName("library")
                 .select()
