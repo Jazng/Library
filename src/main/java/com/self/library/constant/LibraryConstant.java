@@ -41,9 +41,10 @@ public interface LibraryConstant
     String ENGLISH_COMMA = ",";
     String ENGLISH_COLON = ":";
     String ENGLISH_SEMICOLON = ";";
+    String PERCENT = "%";
 
     //拦截路径
-    String ADMIN_ALL = "/library/admin/**";
+    String INTERCEPT_ALL = "/library/**";
     String ADMIN_REGISTER = "/library/admin/register";
     String ADMIN_LOGIN = "/library/admin/login";
 
@@ -84,4 +85,19 @@ public interface LibraryConstant
 
     //查询
     String QUERY_USER_ERROR = "查询用户出错";
+
+    //新增
+    String INSERT_SUCCESS = "添加成功";
+    String INSERT_FAIL = "添加失败";
+    String INSERT_ERROR = "添加出错";
+
+    //查询
+    String QUERY_SUCCESS = "查询成功";
+    String QUERY_FAIL = "查询失败";
+    String QUERY_ERROR = "查询出错";
+
+    //删除
+    String DELETE_SUCCESS = "删除成功";
+    String DELETE_FAIL = "删除失败";
+    String DELETE_ERROR = "删除出错";
 }

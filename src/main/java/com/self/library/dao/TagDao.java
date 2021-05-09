@@ -12,25 +12,27 @@ import java.util.List;
 @Repository
 public interface TagDao
 {
-    long countByExample(TagExample example);
+    Long countByExample(TagExample example);
 
-    int deleteByExample(TagExample example);
+    Integer deleteByExample(TagExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    Integer deleteByPrimaryKey(Integer id);
 
-    int insert(TagEntity record);
+    Integer insert(TagEntity record);
 
-    int insertSelective(TagEntity record);
+    Integer insertSelective(TagEntity record);
 
     List<TagEntity> selectByExample(TagExample example);
 
     TagEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") TagEntity record, @Param("example") TagExample example);
+    Integer updateByExampleSelective(@Param("record") TagEntity record, @Param("example") TagExample example);
 
-    int updateByExample(@Param("record") TagEntity record, @Param("example") TagExample example);
+    Integer updateByExample(@Param("record") TagEntity record, @Param("example") TagExample example);
 
-    int updateByPrimaryKeySelective(TagEntity record);
+    Integer updateByPrimaryKeySelective(TagEntity record);
 
-    int updateByPrimaryKey(TagEntity record);
+    Integer updateByPrimaryKey(TagEntity record);
+
+    Integer saveTags(@Param("tags") List<TagEntity> tags);
 }

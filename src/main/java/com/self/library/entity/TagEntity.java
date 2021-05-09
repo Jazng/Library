@@ -1,78 +1,19 @@
 package com.self.library.entity;
 
-import java.util.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public class TagEntity
+@Data
+@EqualsAndHashCode(of = "tagName", callSuper = false)
+@ApiModel("标签实体")
+public class TagEntity extends BaseEntity
 {
+    private static final long serialVersionUID = 1322438924707495994L;
+
+    @ApiModelProperty(value = "标签ID", example = "1")
     private Integer id;
-
+    @ApiModelProperty(value = "标签名", example = "计算机")
     private String tagName;
-
-    private String createUser;
-
-    private Date createDate;
-
-    private String modifyUser;
-
-    private Date modifyDate;
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    public String getTagName()
-    {
-        return tagName;
-    }
-
-    public void setTagName(String tagName)
-    {
-        this.tagName = tagName == null ? null : tagName.trim();
-    }
-
-    public String getCreateUser()
-    {
-        return createUser;
-    }
-
-    public void setCreateUser(String createUser)
-    {
-        this.createUser = createUser == null ? null : createUser.trim();
-    }
-
-    public Date getCreateDate()
-    {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate)
-    {
-        this.createDate = createDate;
-    }
-
-    public String getModifyUser()
-    {
-        return modifyUser;
-    }
-
-    public void setModifyUser(String modifyUser)
-    {
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
-    }
-
-    public Date getModifyDate()
-    {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate)
-    {
-        this.modifyDate = modifyDate;
-    }
 }

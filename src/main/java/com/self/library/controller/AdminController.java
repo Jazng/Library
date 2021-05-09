@@ -192,17 +192,15 @@ public class AdminController
     {
         if (id != null && id > 0)
         {
+            //由于有拦截器加持，能走到这里的必定是token验证正确的
             Pair<Boolean, DecodedJWT> pair = JWTUtils.verify(request.getHeader("Authorization"));
-            if (pair.getLeft())
+            DecodedJWT decodedJWT = pair.getRight();
+            Integer userId = decodedJWT.getClaim(USER_ID).asInt();
+            if (id.equals(userId))
             {
-                DecodedJWT decodedJWT = pair.getRight();
-                Integer userId = decodedJWT.getClaim(USER_ID).asInt();
-                if (id.equals(userId))
-                {
-                    ResultDTO<Integer> result = new ResultDTO<>(LOGOUT_SUCCESS, SUCCESS);
-                    result.setData(id);
-                    return result;
-                }
+                ResultDTO<Integer> result = new ResultDTO<>(LOGOUT_SUCCESS, SUCCESS);
+                result.setData(id);
+                return result;
             }
         }
         return new ResultDTO<>(LOGOUT_FAIL, FAIL);

@@ -33,6 +33,6 @@ public class WebConfig implements WebMvcConfigurer
     public void addInterceptors(InterceptorRegistry registry)
     {
         List<String> excludeList = Lists.newArrayList(ADMIN_REGISTER, ADMIN_LOGIN);
-        registry.addInterceptor(loginInterceptor()).addPathPatterns(ADMIN_ALL).excludePathPatterns(excludeList);
+        registry.addInterceptor(loginInterceptor()).addPathPatterns(INTERCEPT_ALL).excludePathPatterns(excludeList);
     }
 }

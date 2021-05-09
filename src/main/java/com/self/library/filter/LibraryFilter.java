@@ -26,7 +26,7 @@ public class LibraryFilter implements Filter
     @Override
     public void init(FilterConfig filterConfig)
     {
-        log.info(this.getClass().getName() + CHINESE_COLON + FILTER_INIT);
+        log.info(this.getClass().getSimpleName() + CHINESE_COLON + FILTER_INIT);
     }
 
     @Override
@@ -57,6 +57,6 @@ public class LibraryFilter implements Filter
     @Override
     public void destroy()
     {
-        log.info(this.getClass().getName() + CHINESE_COLON + FILTER_DESTROY);
+        log.info(this.getClass().getSimpleName() + CHINESE_COLON + FILTER_DESTROY);
     }
 }

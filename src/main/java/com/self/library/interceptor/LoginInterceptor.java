@@ -43,12 +43,12 @@ public class LoginInterceptor implements HandlerInterceptor
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception
     {
-        log.info(this.getClass().getName() + CHINESE_COLON + POST_HANDLE);
+        log.info(this.getClass().getSimpleName() + CHINESE_COLON + POST_HANDLE);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception
     {
-        log.info(this.getClass().getName() + CHINESE_COLON + AFTER_COMPLETION);
+        log.info(this.getClass().getSimpleName() + CHINESE_COLON + AFTER_COMPLETION);
     }
 }
