@@ -2,11 +2,11 @@ package com.self.library.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.self.library.constant.LibraryConstant;
-import com.self.library.dao.TagDao;
+import com.self.library.dao.PublishDao;
 import com.self.library.dto.PageDTO;
-import com.self.library.entity.TagEntity;
-import com.self.library.entity.TagExample;
-import com.self.library.service.TagService;
+import com.self.library.entity.PublishEntity;
+import com.self.library.entity.PublishExample;
+import com.self.library.service.PublishService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -21,32 +21,32 @@ import java.util.stream.Collectors;
  * @Author Administrator
  * @Title:
  * @Description:
- * @Date 2021-05-07 21:32
+ * @Date 2021-05-09 12:25
  * @Version: 1.0
  */
 @Service
 @Slf4j
-public class TagServiceImpl implements TagService
+public class PublishServiceImpl implements PublishService
 {
     @Autowired
-    private TagDao tagDao;
+    private PublishDao publishDao;
 
     @Override
-    public Integer save(TagEntity entity)
+    public Integer save(PublishEntity entity)
     {
         Integer count = null;
         try
         {
-            String name = entity.getTagName();
+            String name = entity.getPublishName();
             if (StringUtils.isNotBlank(name))
             {
-                TagExample example = new TagExample();
-                TagExample.Criteria criteria = example.createCriteria();
-                criteria.andTagNameEqualTo(name);
-                List<TagEntity> findList = tagDao.selectByExample(example);
-                if (CollectionUtils.isEmpty(findList))
+                PublishExample example = new PublishExample();
+                PublishExample.Criteria criteria = example.createCriteria();
+                criteria.andPublishNameEqualTo(name);
+                List<PublishEntity> publishList = publishDao.selectByExample(example);
+                if (CollectionUtils.isEmpty(publishList))
                 {
-                    count = tagDao.insertSelective(entity);
+                    count = publishDao.insertSelective(entity);
                 }
             }
         }
@@ -60,20 +60,20 @@ public class TagServiceImpl implements TagService
 
     @Override
     @Transactional
-    public Integer saveList(List<TagEntity> entities)
+    public Integer saveList(List<PublishEntity> entities)
     {
         Integer count = null;
         try
         {
-            List<String> nameList = entities.stream().map(TagEntity::getTagName).collect(Collectors.toList());
-            TagExample example = new TagExample();
-            TagExample.Criteria criteria = example.createCriteria();
-            criteria.andTagNameIn(nameList);
-            List<TagEntity> tagList = tagDao.selectByExample(example);
-            List<TagEntity> insertList = null;
-            if (CollectionUtils.isNotEmpty(tagList))
+            List<String> nameList = entities.stream().map(PublishEntity::getPublishName).collect(Collectors.toList());
+            PublishExample example = new PublishExample();
+            PublishExample.Criteria criteria = example.createCriteria();
+            criteria.andPublishNameIn(nameList);
+            List<PublishEntity> findList = publishDao.selectByExample(example);
+            List<PublishEntity> insertList = null;
+            if (CollectionUtils.isNotEmpty(findList))
             {
-                insertList = entities.stream().filter(tag -> !tagList.contains(tag)).collect(Collectors.toList());
+                insertList = entities.stream().filter(publish -> !findList.contains(publish)).collect(Collectors.toList());
             }
             else
             {
@@ -82,7 +82,7 @@ public class TagServiceImpl implements TagService
 
             if (CollectionUtils.isNotEmpty(insertList))
             {
-                count = tagDao.saveTags(insertList);
+                count = publishDao.savePublishes(insertList);
             }
             else
             {
@@ -97,9 +97,9 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public List<TagEntity> page(PageDTO<TagEntity> page)
+    public List<PublishEntity> page(PageDTO<PublishEntity> page)
     {
-        List<TagEntity> list = null;
+        List<PublishEntity> list = null;
         try
         {
             //没传赋予默认值
@@ -119,23 +119,23 @@ public class TagServiceImpl implements TagService
             {
                 page.setOrder("asc");
             }
-            TagExample example = new TagExample();
-            TagEntity entity = page.getEntity();
+            PublishExample example = new PublishExample();
+            PublishEntity entity = page.getEntity();
             if (entity != null)
             {
-                String name = entity.getTagName();
+                String name = entity.getPublishName();
                 if (StringUtils.isNotBlank(name))
                 {
-                    TagExample.Criteria criteria = example.createCriteria();
+                    PublishExample.Criteria criteria = example.createCriteria();
                     //模糊查询条件
-                    criteria.andTagNameLike(LibraryConstant.PERCENT + name + LibraryConstant.PERCENT);
+                    criteria.andPublishNameLike(LibraryConstant.PERCENT + name + LibraryConstant.PERCENT);
                 }
             }
             //排序
             example.setOrderByClause(page.getProperty() + StringUtils.SPACE + page.getOrder());
             //分页
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
-            list = tagDao.selectByExample(example);
+            list = publishDao.selectByExample(example);
         }
         catch (Exception e)
         {
@@ -145,11 +145,11 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public TagEntity findById(Integer id)
+    public PublishEntity findById(Integer id)
     {
         try
         {
-            return tagDao.selectByPrimaryKey(id);
+            return publishDao.selectByPrimaryKey(id);
         }
         catch (Exception e)
         {
@@ -163,7 +163,7 @@ public class TagServiceImpl implements TagService
     {
         try
         {
-            return tagDao.deleteByPrimaryKey(id);
+            return publishDao.deleteByPrimaryKey(id);
         }
         catch (Exception e)
         {
@@ -173,11 +173,11 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public Integer modify(TagEntity entity)
+    public Integer modify(PublishEntity entity)
     {
         try
         {
-            return tagDao.updateByPrimaryKeySelective(entity);
+            return publishDao.updateByPrimaryKeySelective(entity);
         }
         catch (Exception e)
         {
@@ -187,8 +187,8 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public List<TagEntity> findAll()
+    public List<PublishEntity> findAll()
     {
-        return tagDao.selectByExample(new TagExample());
+        return publishDao.selectByExample(new PublishExample());
     }
 }

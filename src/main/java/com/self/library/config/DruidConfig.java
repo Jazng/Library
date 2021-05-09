@@ -31,8 +31,12 @@ public class DruidConfig
         return new DruidDataSource();
     }
 
-    //配置Druid的监控
-    //配置一个管理后台的Servlet
+    /**
+     * 配置Druid的监控
+     * 配置一个管理后台的Servlet
+     * http://localhost:8085/druid/index.html
+     * @return
+     */
     @Bean
     public ServletRegistrationBean statViewServlet()
     {

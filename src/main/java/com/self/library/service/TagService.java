@@ -1,6 +1,6 @@
 package com.self.library.service;
 
-import com.self.library.dto.TagQueryDTO;
+import com.self.library.dto.PageDTO;
 import com.self.library.entity.TagEntity;
 
 import java.util.List;
@@ -14,17 +14,17 @@ import java.util.List;
  */
 public interface TagService
 {
-    Integer saveTag(TagEntity tag);
+    Integer save(TagEntity entity);
 
-    Integer saveTags(List<TagEntity> tags);
+    Integer saveList(List<TagEntity> entities);
 
-    List<TagEntity> pageTags(TagQueryDTO tagQuery);
+    List<TagEntity> page(PageDTO<TagEntity> page);
 
     TagEntity findById(Integer id);
 
-    Integer deleteTag(Integer id);
+    Integer delete(Integer id);
 
-    Integer modify(TagEntity tag);
+    Integer modify(TagEntity entity);
 
     List<TagEntity> findAll();
 }

@@ -24,6 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 @Configuration
 public class SwaggerConfig
 {
+    /**
+     * 配置swagger基本信息
+     * http://localhost:8085/swagger-ui/
+     * @param environment
+     * @return
+     */
     @Bean
     public Docket docket(Environment environment)
     {

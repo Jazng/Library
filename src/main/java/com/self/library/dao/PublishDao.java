@@ -12,25 +12,27 @@ import java.util.List;
 @Repository
 public interface PublishDao
 {
-    long countByExample(PublishExample example);
+    Long countByExample(PublishExample example);
 
-    int deleteByExample(PublishExample example);
+    Integer deleteByExample(PublishExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    Integer deleteByPrimaryKey(Integer id);
 
-    int insert(PublishEntity record);
+    Integer insert(PublishEntity record);
 
-    int insertSelective(PublishEntity record);
+    Integer insertSelective(PublishEntity record);
 
     List<PublishEntity> selectByExample(PublishExample example);
 
     PublishEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") PublishEntity record, @Param("example") PublishExample example);
+    Integer updateByExampleSelective(@Param("record") PublishEntity record, @Param("example") PublishExample example);
 
-    int updateByExample(@Param("record") PublishEntity record, @Param("example") PublishExample example);
+    Integer updateByExample(@Param("record") PublishEntity record, @Param("example") PublishExample example);
 
-    int updateByPrimaryKeySelective(PublishEntity record);
+    Integer updateByPrimaryKeySelective(PublishEntity record);
 
-    int updateByPrimaryKey(PublishEntity record);
+    Integer updateByPrimaryKey(PublishEntity record);
+
+    Integer savePublishes(@Param("publishes") List<PublishEntity> publishes);
 }

@@ -73,7 +73,7 @@ public class AdminController
     @ApiImplicitParam(name = "userEntity", value = "登录信息（ps：只需要username和password）", required = true)
     public ResultDTO<AdminDTO> login(@RequestBody UserEntity userEntity)
     {
-        AdminDTO adminDTO = new AdminDTO();
+        AdminDTO<UserEntity> adminDTO = new AdminDTO<>();
         try
         {
             if (userEntity != null && StringUtils.isNotBlank(userEntity.getUsername()) && StringUtils.isNotBlank(userEntity.getPassword()))
@@ -95,7 +95,7 @@ public class AdminController
                         map.put(SEX, user.getSex());
                         String token = JWTUtils.getToken(map);
                         adminDTO.setToken(token);
-                        adminDTO.setUser(user);
+                        adminDTO.setEntity(user);
                         adminDTO.setMsg(LOGIN_SUCCESS_MSG);
                         return new ResultDTO<>(adminDTO);
                     }
@@ -154,7 +154,7 @@ public class AdminController
                 }
             }
         }
-        catch (NumberFormatException e)
+        catch (Exception e)
         {
             log.error(USER + MODIFY_ERROR, e);
         }

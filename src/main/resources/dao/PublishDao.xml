@@ -85,7 +85,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_publish
     where id = #{id,jdbcType=INTEGER}
@@ -151,6 +151,7 @@
       </if>
     </trim>
   </insert>
+
   <select id="countByExample" parameterType="com.self.library.entity.PublishExample" resultType="java.lang.Long">
     select count(*) from t_publish
     <if test="_parameter != null">
@@ -225,4 +226,12 @@
       modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="savePublishes">
+    insert into t_publish(publish_name, create_user)
+    values
+    <foreach collection="publishes" item="item" separator=",">
+      (#{item.publishName}, #{item.createUser})
+    </foreach>
+  </insert>
 </mapper>

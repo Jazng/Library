@@ -1,78 +1,19 @@
 package com.self.library.entity;
 
-import java.util.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-public class PublishEntity
+@Data
+@EqualsAndHashCode(of = "publishName", callSuper = false)
+@ApiModel("出版社实体")
+public class PublishEntity extends BaseEntity
 {
+    private static final long serialVersionUID = 5369490225762695946L;
+
+    @ApiModelProperty(value = "出版社ID", example = "1")
     private Integer id;
-
+    @ApiModelProperty(value = "出版社名称", example = "机械工业出版社")
     private String publishName;
-
-    private String createUser;
-
-    private Date createDate;
-
-    private String modifyUser;
-
-    private Date modifyDate;
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    public String getPublishName()
-    {
-        return publishName;
-    }
-
-    public void setPublishName(String publishName)
-    {
-        this.publishName = publishName == null ? null : publishName.trim();
-    }
-
-    public String getCreateUser()
-    {
-        return createUser;
-    }
-
-    public void setCreateUser(String createUser)
-    {
-        this.createUser = createUser == null ? null : createUser.trim();
-    }
-
-    public Date getCreateDate()
-    {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate)
-    {
-        this.createDate = createDate;
-    }
-
-    public String getModifyUser()
-    {
-        return modifyUser;
-    }
-
-    public void setModifyUser(String modifyUser)
-    {
-        this.modifyUser = modifyUser == null ? null : modifyUser.trim();
-    }
-
-    public Date getModifyDate()
-    {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Date modifyDate)
-    {
-        this.modifyDate = modifyDate;
-    }
 }
