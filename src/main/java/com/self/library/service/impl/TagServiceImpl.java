@@ -1,6 +1,7 @@
 package com.self.library.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
 import com.self.library.dao.TagDao;
 import com.self.library.dto.PageDTO;
@@ -97,9 +98,9 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public List<TagEntity> page(PageDTO<TagEntity> page)
+    public PageInfo<TagEntity> page(PageDTO<TagEntity> page)
     {
-        List<TagEntity> list = null;
+        PageInfo<TagEntity> pageInfo = null;
         try
         {
             //没传赋予默认值
@@ -135,13 +136,14 @@ public class TagServiceImpl implements TagService
             example.setOrderByClause(page.getProperty() + StringUtils.SPACE + page.getOrder());
             //分页
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
-            list = tagDao.selectByExample(example);
+            List<TagEntity> list = tagDao.selectByExample(example);
+            pageInfo = new PageInfo<>(list);
         }
         catch (Exception e)
         {
             log.error(LibraryConstant.QUERY_ERROR, e);
         }
-        return list;
+        return pageInfo;
     }
 
     @Override

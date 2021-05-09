@@ -1,6 +1,7 @@
 package com.self.library.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
 import com.self.library.dao.PublishDao;
 import com.self.library.dto.PageDTO;
@@ -97,9 +98,9 @@ public class PublishServiceImpl implements PublishService
     }
 
     @Override
-    public List<PublishEntity> page(PageDTO<PublishEntity> page)
+    public PageInfo<PublishEntity> page(PageDTO<PublishEntity> page)
     {
-        List<PublishEntity> list = null;
+        PageInfo<PublishEntity> pageInfo = null;
         try
         {
             //没传赋予默认值
@@ -135,13 +136,14 @@ public class PublishServiceImpl implements PublishService
             example.setOrderByClause(page.getProperty() + StringUtils.SPACE + page.getOrder());
             //分页
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
-            list = publishDao.selectByExample(example);
+            List<PublishEntity> list = publishDao.selectByExample(example);
+            pageInfo = new PageInfo<>(list);
         }
         catch (Exception e)
         {
             log.error(LibraryConstant.QUERY_ERROR, e);
         }
-        return list;
+        return pageInfo;
     }
 
     @Override

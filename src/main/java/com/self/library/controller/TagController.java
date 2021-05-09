@@ -2,8 +2,10 @@ package com.self.library.controller;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
 import com.self.library.dto.PageDTO;
+import com.self.library.dto.PageQueryDTO;
 import com.self.library.dto.ResultDTO;
 import com.self.library.entity.TagEntity;
 import com.self.library.service.TagService;
@@ -94,7 +96,7 @@ public class TagController
     @PostMapping("/page")
     @ApiOperation("分页和模糊查询查询接口")
     @ApiImplicitParam(name = "page", value = "分页和模糊查询条件信息包装", required = true)
-    public ResultDTO<ArrayList<TagEntity>> page(@RequestBody PageDTO<TagEntity> page)
+    public ResultDTO<PageInfo<TagEntity>> page(@RequestBody PageDTO<TagEntity> page)
     {
         try
         {

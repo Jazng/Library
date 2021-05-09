@@ -1,5 +1,6 @@
 package com.self.library.service;
 
+import com.github.pagehelper.PageInfo;
 import com.self.library.dto.PageDTO;
 import com.self.library.entity.TagEntity;
 
@@ -18,7 +19,7 @@ public interface TagService
 
     Integer saveList(List<TagEntity> entities);
 
-    List<TagEntity> page(PageDTO<TagEntity> page);
+    PageInfo<TagEntity> page(PageDTO<TagEntity> page);
 
     TagEntity findById(Integer id);
 

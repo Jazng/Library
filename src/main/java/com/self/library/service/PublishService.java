@@ -1,5 +1,6 @@
 package com.self.library.service;
 
+import com.github.pagehelper.PageInfo;
 import com.self.library.dto.PageDTO;
 import com.self.library.entity.PublishEntity;
 
@@ -18,7 +19,7 @@ public interface PublishService
 
     Integer saveList(List<PublishEntity> entities);
 
-    List<PublishEntity> page(PageDTO<PublishEntity> page);
+    PageInfo<PublishEntity> page(PageDTO<PublishEntity> page);
 
     PublishEntity findById(Integer id);
 

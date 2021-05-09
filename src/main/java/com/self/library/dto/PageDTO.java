@@ -25,7 +25,7 @@ public class PageDTO<T extends Serializable> implements Serializable
     private Integer pageSize;
     @ApiModelProperty(value = "排序字段", example = "id")
     private String property;
-    @ApiModelProperty(value = "升降序：asc || desc", example = "升序")
+    @ApiModelProperty(value = "升降序：asc || desc", example = "asc")
     private String order;
     @ApiModelProperty(value = "模糊查询实体：需要使用哪个字段模糊查询就传哪个字段")
     private T entity;

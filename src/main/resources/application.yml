@@ -13,6 +13,9 @@ mybatis:
     map-underscore-to-camel-case: true
   type-aliases-package: com.self.library.entity
 
+pagehelper:
+  helper-dialect: mysql
+
 logging:
   level:
     com.self.library.dao: debug
