@@ -10,12 +10,12 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * @Author Administrator
  * @Title: 线程池配置
- * @Description:
+ * @Description: 设置线程池信息
  * @Date 2021-04-17 18:31
  * @Version: 1.0
  */
 @Configuration
-public class ThreadPoolTaskExecutorConfig
+public class ThreadPoolConfig
 {
     @Bean
     public ThreadPoolTaskExecutor executor()

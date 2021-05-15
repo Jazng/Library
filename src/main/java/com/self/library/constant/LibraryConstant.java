@@ -43,6 +43,15 @@ public interface LibraryConstant
     String ENGLISH_SEMICOLON = ";";
     String PERCENT = "%";
 
+    String EQUALS_SIGN = "=";
+
+    String AITE = "@";
+    String DOUBLE_AITE = "@@";
+
+    String SLASH = "\\";
+
+    Integer ONE_BYTE = 1024;
+
     //拦截路径
     String INTERCEPT_ALL = "/library/**";
     String ADMIN_REGISTER = "/library/admin/register";
@@ -69,9 +78,6 @@ public interface LibraryConstant
     String DESTROY_SUCCESS = "注销成功";
     String DESTROY_FAIL = "注销失败";
     String DESTROY_ERROR = "注销出错";
-    String MODIFY_SUCCESS = "修改成功";
-    String MODIFY_FAIL = "修改失败";
-    String MODIFY_ERROR = "修改出错";
     String LOGOUT_SUCCESS = "退出成功";
     String LOGOUT_FAIL = "退出失败";
 
@@ -100,4 +106,14 @@ public interface LibraryConstant
     String DELETE_SUCCESS = "删除成功";
     String DELETE_FAIL = "删除失败";
     String DELETE_ERROR = "删除出错";
+
+    //修改
+    String MODIFY_SUCCESS = "修改成功";
+    String MODIFY_FAIL = "修改失败";
+    String MODIFY_ERROR = "修改出错";
+
+    //文件上传
+    String FILE_UPLOAD_SUCCESS = "文件上传成功";
+    String FILE_UPLOAD_FAIL = "文件上传失败";
+    String FILE_UPLOAD_ERROR = "文件上传出错";
 }

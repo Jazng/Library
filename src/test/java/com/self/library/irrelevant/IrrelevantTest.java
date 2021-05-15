@@ -4,6 +4,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testng.annotations.Test;
 
+import java.nio.charset.StandardCharsets;
+
 /**
  * @Author Administrator
  * @Title: 无关测试
@@ -17,6 +19,6 @@ public class IrrelevantTest
     @Test
     public void Test()
     {
-
+        System.out.println(StandardCharsets.UTF_8.name());
     }
 }

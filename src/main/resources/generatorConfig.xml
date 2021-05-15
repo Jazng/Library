@@ -38,8 +38,7 @@
         </javaClientGenerator>
 
         <!--<table tableName="t_user" domainObjectName="UserEntity" mapperName="UserDao"/>-->
-        <table tableName="t_book" domainObjectName="BookEntity" mapperName="BookDao"/>
-        <table tableName="t_publish" domainObjectName="PublishEntity" mapperName="PublishDao"/>
-        <table tableName="t_tag" domainObjectName="TagEntity" mapperName="TagDao"/>
+        <!--<table tableName="t_book" domainObjectName="BookEntity" mapperName="BookDao"/>-->
+        <table tableName="t_borrow" domainObjectName="BorrowEntity" mapperName="BorrowDao"/>
     </context>
 </generatorConfiguration>

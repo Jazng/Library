@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.self.library.dao.BookDao">
-  <resultMap id="BaseResultMap" type="com.self.library.entity.BookEntity">
+<mapper namespace="com.self.library.dao.BorrowDao">
+  <resultMap id="BaseResultMap" type="com.self.library.entity.BorrowEntity">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="book_name" jdbcType="VARCHAR" property="bookName" />
-    <result column="book_no" jdbcType="VARCHAR" property="bookNo" />
-    <result column="price" jdbcType="DECIMAL" property="price" />
-    <result column="show" jdbcType="BIT" property="show" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
     <result column="count" jdbcType="INTEGER" property="count" />
-    <result column="tag_id" jdbcType="INTEGER" property="tagId" />
-    <result column="publish_id" jdbcType="INTEGER" property="publishId" />
-    <result column="author" jdbcType="VARCHAR" property="author" />
-    <result column="publish_date" jdbcType="TIMESTAMP" property="publishDate" />
     <result column="create_user" jdbcType="VARCHAR" property="createUser" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
@@ -76,16 +74,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, book_name, book_no, price, show, count, tag_id, publish_id, author, publish_date, 
-    create_user, create_date, modify_user, modify_date
+    id, name, sex, age, phone, address, book_id, count, create_user, create_date, modify_user, 
+    modify_date
   </sql>
-  <select id="selectByExample" parameterType="com.self.library.entity.BookExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.self.library.entity.BorrowExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_book
+    from t_borrow
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,63 +94,55 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_book
+    from t_borrow
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_book
+    delete from t_borrow
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.self.library.entity.BookExample">
-    delete from t_book
+  <delete id="deleteByExample" parameterType="com.self.library.entity.BorrowExample">
+    delete from t_borrow
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.self.library.entity.BookEntity">
-    insert into t_book (id, book_name, book_no, 
-      price, show, count, tag_id, 
-      publish_id, author, publish_date, 
-      create_user, create_date, modify_user, 
-      modify_date)
-    values (#{id,jdbcType=INTEGER}, #{bookName,jdbcType=VARCHAR}, #{bookNo,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{show,jdbcType=BIT}, #{count,jdbcType=INTEGER}, #{tagId,jdbcType=INTEGER}, 
-      #{publishId,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, #{publishDate,jdbcType=TIMESTAMP}, 
-      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, 
-      #{modifyDate,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.self.library.entity.BorrowEntity">
+    insert into t_borrow (id, name, sex, age, 
+      phone, address, book_id, 
+      count, create_user, create_date, 
+      modify_user, modify_date)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{age,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{bookId,jdbcType=INTEGER}, 
+      #{count,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifyUser,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.self.library.entity.BookEntity">
-    insert into t_book
+  <insert id="insertSelective" parameterType="com.self.library.entity.BorrowEntity">
+    insert into t_borrow
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="bookName != null">
-        book_name,
+      <if test="name != null">
+        name,
       </if>
-      <if test="bookNo != null">
-        book_no,
+      <if test="sex != null">
+        sex,
       </if>
-      <if test="price != null">
-        price,
+      <if test="age != null">
+        age,
       </if>
-      <if test="show != null">
-        show,
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="bookId != null">
+        book_id,
       </if>
       <if test="count != null">
         count,
-      </if>
-      <if test="tagId != null">
-        tag_id,
-      </if>
-      <if test="publishId != null">
-        publish_id,
-      </if>
-      <if test="author != null">
-        author,
-      </if>
-      <if test="publishDate != null">
-        publish_date,
       </if>
       <if test="createUser != null">
         create_user,
@@ -171,32 +161,26 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="bookName != null">
-        #{bookName,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="bookNo != null">
-        #{bookNo,jdbcType=VARCHAR},
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
       </if>
-      <if test="price != null">
-        #{price,jdbcType=DECIMAL},
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
       </if>
-      <if test="show != null">
-        #{show,jdbcType=BIT},
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
       </if>
       <if test="count != null">
         #{count,jdbcType=INTEGER},
-      </if>
-      <if test="tagId != null">
-        #{tagId,jdbcType=INTEGER},
-      </if>
-      <if test="publishId != null">
-        #{publishId,jdbcType=INTEGER},
-      </if>
-      <if test="author != null">
-        #{author,jdbcType=VARCHAR},
-      </if>
-      <if test="publishDate != null">
-        #{publishDate,jdbcType=TIMESTAMP},
       </if>
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
@@ -212,44 +196,39 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.self.library.entity.BookExample" resultType="java.lang.Long">
-    select count(*) from t_book
+
+  <select id="countByExample" parameterType="com.self.library.entity.BorrowExample" resultType="java.lang.Long">
+    select count(*) from t_borrow
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_book
+    update t_borrow
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.bookName != null">
-        book_name = #{record.bookName,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.bookNo != null">
-        book_no = #{record.bookNo,jdbcType=VARCHAR},
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=BIT},
       </if>
-      <if test="record.price != null">
-        price = #{record.price,jdbcType=DECIMAL},
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
       </if>
-      <if test="record.show != null">
-        show = #{record.show,jdbcType=BIT},
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookId != null">
+        book_id = #{record.bookId,jdbcType=INTEGER},
       </if>
       <if test="record.count != null">
         count = #{record.count,jdbcType=INTEGER},
-      </if>
-      <if test="record.tagId != null">
-        tag_id = #{record.tagId,jdbcType=INTEGER},
-      </if>
-      <if test="record.publishId != null">
-        publish_id = #{record.publishId,jdbcType=INTEGER},
-      </if>
-      <if test="record.author != null">
-        author = #{record.author,jdbcType=VARCHAR},
-      </if>
-      <if test="record.publishDate != null">
-        publish_date = #{record.publishDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createUser != null">
         create_user = #{record.createUser,jdbcType=VARCHAR},
@@ -269,17 +248,15 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_book
+    update t_borrow
     set id = #{record.id,jdbcType=INTEGER},
-      book_name = #{record.bookName,jdbcType=VARCHAR},
-      book_no = #{record.bookNo,jdbcType=VARCHAR},
-      price = #{record.price,jdbcType=DECIMAL},
-      show = #{record.show,jdbcType=BIT},
+      name = #{record.name,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=BIT},
+      age = #{record.age,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      book_id = #{record.bookId,jdbcType=INTEGER},
       count = #{record.count,jdbcType=INTEGER},
-      tag_id = #{record.tagId,jdbcType=INTEGER},
-      publish_id = #{record.publishId,jdbcType=INTEGER},
-      author = #{record.author,jdbcType=VARCHAR},
-      publish_date = #{record.publishDate,jdbcType=TIMESTAMP},
       create_user = #{record.createUser,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       modify_user = #{record.modifyUser,jdbcType=VARCHAR},
@@ -288,35 +265,29 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.self.library.entity.BookEntity">
-    update t_book
+  <update id="updateByPrimaryKeySelective" parameterType="com.self.library.entity.BorrowEntity">
+    update t_borrow
     <set>
-      <if test="bookName != null">
-        book_name = #{bookName,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="bookNo != null">
-        book_no = #{bookNo,jdbcType=VARCHAR},
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
       </if>
-      <if test="price != null">
-        price = #{price,jdbcType=DECIMAL},
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
       </if>
-      <if test="show != null">
-        show = #{show,jdbcType=BIT},
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
       </if>
       <if test="count != null">
         count = #{count,jdbcType=INTEGER},
-      </if>
-      <if test="tagId != null">
-        tag_id = #{tagId,jdbcType=INTEGER},
-      </if>
-      <if test="publishId != null">
-        publish_id = #{publishId,jdbcType=INTEGER},
-      </if>
-      <if test="author != null">
-        author = #{author,jdbcType=VARCHAR},
-      </if>
-      <if test="publishDate != null">
-        publish_date = #{publishDate,jdbcType=TIMESTAMP},
       </if>
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=VARCHAR},
@@ -333,17 +304,15 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.self.library.entity.BookEntity">
-    update t_book
-    set book_name = #{bookName,jdbcType=VARCHAR},
-      book_no = #{bookNo,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DECIMAL},
-      show = #{show,jdbcType=BIT},
+  <update id="updateByPrimaryKey" parameterType="com.self.library.entity.BorrowEntity">
+    update t_borrow
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      age = #{age,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      book_id = #{bookId,jdbcType=INTEGER},
       count = #{count,jdbcType=INTEGER},
-      tag_id = #{tagId,jdbcType=INTEGER},
-      publish_id = #{publishId,jdbcType=INTEGER},
-      author = #{author,jdbcType=VARCHAR},
-      publish_date = #{publishDate,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_user = #{modifyUser,jdbcType=VARCHAR},
@@ -351,21 +320,19 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="saveBooks">
-    insert into t_book(book_name, book_no, price, show, `count`, tag_id, publish_id, author, publish_date, create_user)
+  <insert id="saveList">
+    insert into t_borrow(`name`, sex, age, phone, address, book_id, `count`, create_user)
     values
     <foreach collection="list" item="item" separator=",">
       (
-      #{item.bookName},
-      #{item.bookNo},
-      #{item.price},
-      #{item.show},
-      #{item.count},
-      #{item.tagId},
-      #{item.publishId},
-      #{item.author},
-      #{item.publishDate},
-      #{item.createUser}
+        #{item.name},
+        #{item.sex},
+        #{item.age},
+        #{item.phone},
+        #{item.address},
+        #{item.bookIds},
+        #{item.count},
+        #{item.createUser}
       )
     </foreach>
   </insert>

@@ -13,7 +13,7 @@ import java.util.Date;
 @ApiModel("书籍实体")
 public class BookEntity extends BaseEntity
 {
-    private static final long serialVersionUID = 9075427265406850111L;
+    private static final long serialVersionUID = -3247352912952583673L;
 
     @ApiModelProperty(value = "书籍ID", example = "1")
     private Integer id;
@@ -21,12 +21,12 @@ public class BookEntity extends BaseEntity
     private String bookName;
     @ApiModelProperty(value = "书籍编号(ISBN)", example = "9787510095207", required = true)
     private String bookNo;
-    @ApiModelProperty(value = "书籍价格", example = "79.9", required = true)
+    @ApiModelProperty(value = "书籍价格", example = "79.9")
     private BigDecimal price;
-    @ApiModelProperty(value = "是否展示", example = "true", required = true)
+    @ApiModelProperty(value = "是否展示", example = "true")
     private Boolean show;
-    @ApiModelProperty(value = "书籍页数", example = "9787510095207")
-    private Integer pageNum;
+    @ApiModelProperty(value = "书籍数量", example = "10")
+    private Integer count;
     @ApiModelProperty(value = "标签ID", example = "1", required = true)
     private Integer tagId;
     @ApiModelProperty(value = "出版社ID", example = "1", required = true)

@@ -5,7 +5,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
 import com.self.library.dto.PageDTO;
-import com.self.library.dto.PageQueryDTO;
 import com.self.library.dto.ResultDTO;
 import com.self.library.entity.TagEntity;
 import com.self.library.service.TagService;
@@ -74,7 +73,7 @@ public class TagController
         {
             if (CollectionUtils.isNotEmpty(entities))
             {
-                List<TagEntity> newList = entities.stream().filter(tag -> StringUtils.isNotBlank(tag.getTagName())).collect(Collectors.toList());
+                List<TagEntity> newList = entities.stream().filter(entity -> StringUtils.isNotBlank(entity.getTagName())).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(newList))
                 {
                     //由于有拦截器加持，能走到这里的必定是token验证正确的

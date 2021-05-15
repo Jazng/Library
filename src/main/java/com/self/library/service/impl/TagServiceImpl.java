@@ -74,7 +74,7 @@ public class TagServiceImpl implements TagService
             List<TagEntity> insertList = null;
             if (CollectionUtils.isNotEmpty(tagList))
             {
-                insertList = entities.stream().filter(tag -> !tagList.contains(tag)).collect(Collectors.toList());
+                insertList = entities.stream().filter(entity -> !tagList.contains(entity)).collect(Collectors.toList());
             }
             else
             {

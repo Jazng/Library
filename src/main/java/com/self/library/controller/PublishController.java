@@ -5,7 +5,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
 import com.self.library.dto.PageDTO;
-import com.self.library.dto.PageQueryDTO;
 import com.self.library.dto.ResultDTO;
 import com.self.library.entity.PublishEntity;
 import com.self.library.service.PublishService;
@@ -74,7 +73,7 @@ public class PublishController
         {
             if (CollectionUtils.isNotEmpty(entities))
             {
-                List<PublishEntity> newList = entities.stream().filter(publish -> StringUtils.isNotBlank(publish.getPublishName())).collect(Collectors.toList());
+                List<PublishEntity> newList = entities.stream().filter(entity -> StringUtils.isNotBlank(entity.getPublishName())).collect(Collectors.toList());
                 if (CollectionUtils.isNotEmpty(newList))
                 {
                     //由于有拦截器加持，能走到这里的必定是token验证正确的
@@ -162,20 +161,20 @@ public class PublishController
 
     @PostMapping("/modify")
     @ApiOperation("修改出版社接口")
-    @ApiImplicitParam(name = "publish", value = "出版社实体", required = true)
-    public ResultDTO<Integer> modify(@RequestBody PublishEntity publish, HttpServletRequest request)
+    @ApiImplicitParam(name = "entity", value = "出版社实体", required = true)
+    public ResultDTO<Integer> modify(@RequestBody PublishEntity entity, HttpServletRequest request)
     {
         try
         {
-            if (publish != null && publish.getId() != null && publish.getId() > Integer.parseInt(LibraryConstant.COMMON_ZERO))
+            if (entity != null && entity.getId() != null && entity.getId() > Integer.parseInt(LibraryConstant.COMMON_ZERO))
             {
                 String token = request.getHeader("Authorization");
                 Pair<Boolean, DecodedJWT> pair = JWTUtils.verify(token);
                 DecodedJWT decoded = pair.getRight();
                 Claim claim = decoded.getClaim(LibraryConstant.USERNAME);
                 String username = claim.asString();
-                publish.setModifyUser(username);
-                Integer count = publishService.modify(publish);
+                entity.setModifyUser(username);
+                Integer count = publishService.modify(entity);
                 if (count != null)
                 {
                     return new ResultDTO<>(count);

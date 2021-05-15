@@ -4,18 +4,19 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
+import com.self.library.dto.BorrowDTO;
 import com.self.library.dto.PageDTO;
 import com.self.library.dto.ResultDTO;
-import com.self.library.entity.BookEntity;
-import com.self.library.service.BookService;
+import com.self.library.entity.BorrowEntity;
+import com.self.library.service.BorrowService;
 import com.self.library.utils.JWTUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,22 +29,22 @@ import java.util.stream.Collectors;
  * @Author Administrator
  * @Title:
  * @Description:
- * @Date 2021-05-09 16:10
+ * @Date 2021-05-15 10:37
  * @Version: 1.0
  */
 @RestController
-@RequestMapping("/library/book")
-@Api(tags = "书籍相关接口")
+@RequestMapping("/library/borrow")
+@Api(tags = "借阅相关接口")
 @Slf4j
-public class BookController
+public class BorrowController
 {
     @Autowired
-    private BookService bookService;
+    private BorrowService borrowService;
 
     @PostMapping("/save")
-    @ApiOperation("新增单本书籍接口")
-    @ApiImplicitParam(name = "entity", value = "新增加的书籍实体", required = true)
-    public ResultDTO<Integer> save(@RequestBody BookEntity entity, HttpServletRequest request)
+    @ApiOperation("新增单个借阅接口")
+    @ApiImplicitParam(name = "entity", value = "新增加的借阅实体", required = true)
+    public ResultDTO<Integer> save(@RequestBody BorrowEntity entity, HttpServletRequest request)
     {
         try
         {
@@ -53,7 +54,7 @@ public class BookController
                 Pair<Boolean, DecodedJWT> pair = JWTUtils.verify(request.getHeader("Authorization"));
                 String username = pair.getRight().getClaim(LibraryConstant.USERNAME).asString();
                 entity.setCreateUser(username);
-                return new ResultDTO<>(bookService.save(entity));
+                return new ResultDTO<>(borrowService.save(entity));
             }
         }
         catch (Exception e)
@@ -65,22 +66,28 @@ public class BookController
     }
 
     @PostMapping("/saveList")
-    @ApiOperation("批量新增书籍接口")
-    @ApiImplicitParam(name = "entities", value = "书籍实体集合", required = true)
-    public ResultDTO<Integer> saveList(@RequestBody List<BookEntity> entities, HttpServletRequest request)
+    @ApiOperation("批量新增借阅接口")
+    @ApiImplicitParam(name = "borrowDTO", value = "借阅实体集合", required = true)
+    public ResultDTO<Integer> saveList(@RequestBody BorrowDTO borrowDTO, HttpServletRequest request)
     {
         try
         {
-            if (CollectionUtils.isNotEmpty(entities))
+            if (borrowDTO != null && CollectionUtils.isNotEmpty(borrowDTO.getBookIds()))
             {
-                List<BookEntity> newList = entities.stream().filter(entity -> StringUtils.isNotBlank(entity.getBookName())).collect(Collectors.toList());
-                if (CollectionUtils.isNotEmpty(newList))
+                List<BorrowEntity> list = borrowDTO.getBookIds().stream().map(id ->
+                {
+                    BorrowEntity entity = new BorrowEntity();
+                    BeanUtils.copyProperties(borrowDTO, entity);
+                    entity.setBookId(id);
+                    return entity;
+                }).collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(list))
                 {
                     //由于有拦截器加持，能走到这里的必定是token验证正确的
                     Pair<Boolean, DecodedJWT> pair = JWTUtils.verify(request.getHeader("Authorization"));
                     String username = pair.getRight().getClaim(LibraryConstant.USERNAME).asString();
-                    newList.forEach(entity -> entity.setCreateUser(username));
-                    return new ResultDTO<>(bookService.saveList(newList));
+                    list.forEach(entity -> entity.setCreateUser(username));
+                    return new ResultDTO<>(borrowService.saveList(list));
                 }
             }
         }
@@ -95,7 +102,7 @@ public class BookController
     @PostMapping("/page")
     @ApiOperation("分页和模糊查询查询接口")
     @ApiImplicitParam(name = "page", value = "分页和模糊查询条件信息包装", required = true)
-    public ResultDTO<PageInfo<BookEntity>> page(@RequestBody PageDTO<BookEntity> page)
+    public ResultDTO<PageInfo<BorrowEntity>> page(@RequestBody PageDTO<BorrowEntity> page)
     {
         try
         {
@@ -103,7 +110,7 @@ public class BookController
             {
                 page = new PageDTO<>();
             }
-            return new ResultDTO<>(bookService.page(page));
+            return new ResultDTO<>(borrowService.page(page));
         }
         catch (Exception e)
         {
@@ -113,15 +120,15 @@ public class BookController
     }
 
     @GetMapping("/findById")
-    @ApiOperation("根据ID查询书籍接口")
-    @ApiImplicitParam(name = "id", value = "书籍ID", required = true, dataType = "integer", defaultValue = "1", example = "2")
-    public ResultDTO<BookEntity> findById(@RequestParam("id") Integer id)
+    @ApiOperation("根据ID查询借阅接口")
+    @ApiImplicitParam(name = "id", value = "借阅ID", required = true, dataType = "integer", defaultValue = "1", example = "2")
+    public ResultDTO<BorrowEntity> findById(@RequestParam("id") Integer id)
     {
         try
         {
             if (id != null)
             {
-                return new ResultDTO<>(bookService.findById(id));
+                return new ResultDTO<>(borrowService.findById(id));
             }
         }
         catch (Exception e)
@@ -133,15 +140,15 @@ public class BookController
     }
 
     @GetMapping("/delete")
-    @ApiOperation("删除单个书籍接口")
-    @ApiImplicitParam(name = "id", value = "书籍ID", required = true, dataType = "integer", defaultValue = "1", example = "2")
+    @ApiOperation("删除单个借阅接口")
+    @ApiImplicitParam(name = "id", value = "借阅ID", required = true, dataType = "integer", defaultValue = "1", example = "2")
     public ResultDTO<Integer> delete(@RequestParam("id") Integer id)
     {
         try
         {
             if (id != null)
             {
-                Integer count = bookService.delete(id);
+                Integer count = borrowService.delete(id);
                 if (count > 0)
                 {
                     return new ResultDTO<>(count);
@@ -160,9 +167,9 @@ public class BookController
     }
 
     @PostMapping("/modify")
-    @ApiOperation("修改书籍接口")
-    @ApiImplicitParam(name = "entity", value = "书籍实体", required = true)
-    public ResultDTO<Integer> modify(@RequestBody BookEntity entity, HttpServletRequest request)
+    @ApiOperation("修改借阅接口")
+    @ApiImplicitParam(name = "entity", value = "借阅实体", required = true)
+    public ResultDTO<Integer> modify(@RequestBody BorrowEntity entity, HttpServletRequest request)
     {
         try
         {
@@ -174,7 +181,7 @@ public class BookController
                 Claim claim = decoded.getClaim(LibraryConstant.USERNAME);
                 String username = claim.asString();
                 entity.setModifyUser(username);
-                Integer count = bookService.modify(entity);
+                Integer count = borrowService.modify(entity);
                 if (count != null)
                 {
                     return new ResultDTO<>(count);
@@ -191,11 +198,11 @@ public class BookController
 
     @GetMapping("/findAll")
     @ApiOperation("查询所有书籍接口")
-    public ResultDTO<ArrayList<BookEntity>> findAll()
+    public ResultDTO<ArrayList<BorrowEntity>> findAll()
     {
         try
         {
-            return new ResultDTO<>(bookService.findAll());
+            return new ResultDTO<>(borrowService.findAll());
         }
         catch (Exception e)
         {

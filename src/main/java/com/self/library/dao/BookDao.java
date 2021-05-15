@@ -33,4 +33,6 @@ public interface BookDao
     int updateByPrimaryKeySelective(BookEntity record);
 
     int updateByPrimaryKey(BookEntity record);
+
+    Integer saveBooks(@Param("list") List<BookEntity> list);
 }

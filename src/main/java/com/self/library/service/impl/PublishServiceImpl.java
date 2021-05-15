@@ -44,8 +44,8 @@ public class PublishServiceImpl implements PublishService
                 PublishExample example = new PublishExample();
                 PublishExample.Criteria criteria = example.createCriteria();
                 criteria.andPublishNameEqualTo(name);
-                List<PublishEntity> publishList = publishDao.selectByExample(example);
-                if (CollectionUtils.isEmpty(publishList))
+                List<PublishEntity> findList = publishDao.selectByExample(example);
+                if (CollectionUtils.isEmpty(findList))
                 {
                     count = publishDao.insertSelective(entity);
                 }
@@ -74,7 +74,7 @@ public class PublishServiceImpl implements PublishService
             List<PublishEntity> insertList = null;
             if (CollectionUtils.isNotEmpty(findList))
             {
-                insertList = entities.stream().filter(publish -> !findList.contains(publish)).collect(Collectors.toList());
+                insertList = entities.stream().filter(entity -> !findList.contains(entity)).collect(Collectors.toList());
             }
             else
             {
