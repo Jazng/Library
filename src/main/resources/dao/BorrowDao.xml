@@ -3,13 +3,18 @@
 <mapper namespace="com.self.library.dao.BorrowDao">
   <resultMap id="BaseResultMap" type="com.self.library.entity.BorrowEntity">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="book_id" jdbcType="INTEGER" property="bookId" />
     <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="borrow_day" jdbcType="INTEGER" property="borrowDay" />
+    <result column="return_date" jdbcType="TIMESTAMP" property="returnDate" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="actual_date" jdbcType="TIMESTAMP" property="actualDate" />
     <result column="create_user" jdbcType="VARCHAR" property="createUser" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
@@ -74,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, sex, age, phone, address, book_id, count, create_user, create_date, modify_user, 
-    modify_date
+    id, serial_no, name, sex, age, phone, address, book_id, count, borrow_day, return_date, 
+    status, actual_date, create_user, create_date, modify_user, modify_date
   </sql>
   <select id="selectByExample" parameterType="com.self.library.entity.BorrowExample" resultMap="BaseResultMap">
     select
@@ -108,20 +113,27 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.self.library.entity.BorrowEntity">
-    insert into t_borrow (id, name, sex, age, 
-      phone, address, book_id, 
-      count, create_user, create_date, 
-      modify_user, modify_date)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, #{age,jdbcType=INTEGER}, 
-      #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{bookId,jdbcType=INTEGER}, 
-      #{count,jdbcType=INTEGER}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{modifyUser,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP})
+    insert into t_borrow (id, serial_no, name, 
+      sex, age, phone, address, 
+      book_id, count, borrow_day, 
+      return_date, status, actual_date, 
+      create_user, create_date, modify_user, 
+      modify_date)
+    values (#{id,jdbcType=INTEGER}, #{serialNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{bookId,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{borrowDay,jdbcType=INTEGER}, 
+      #{returnDate,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{actualDate,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, 
+      #{modifyDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.self.library.entity.BorrowEntity">
     insert into t_borrow
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="serialNo != null">
+        serial_no,
       </if>
       <if test="name != null">
         name,
@@ -144,6 +156,18 @@
       <if test="count != null">
         count,
       </if>
+      <if test="borrowDay != null">
+        borrow_day,
+      </if>
+      <if test="returnDate != null">
+        return_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="actualDate != null">
+        actual_date,
+      </if>
       <if test="createUser != null">
         create_user,
       </if>
@@ -161,11 +185,14 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        #{sex,jdbcType=BIT},
+        #{sex,jdbcType=INTEGER},
       </if>
       <if test="age != null">
         #{age,jdbcType=INTEGER},
@@ -182,6 +209,18 @@
       <if test="count != null">
         #{count,jdbcType=INTEGER},
       </if>
+      <if test="borrowDay != null">
+        #{borrowDay,jdbcType=INTEGER},
+      </if>
+      <if test="returnDate != null">
+        #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="actualDate != null">
+        #{actualDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="createUser != null">
         #{createUser,jdbcType=VARCHAR},
       </if>
@@ -196,7 +235,6 @@
       </if>
     </trim>
   </insert>
-
   <select id="countByExample" parameterType="com.self.library.entity.BorrowExample" resultType="java.lang.Long">
     select count(*) from t_borrow
     <if test="_parameter != null">
@@ -209,11 +247,14 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.serialNo != null">
+        serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=BIT},
+        sex = #{record.sex,jdbcType=INTEGER},
       </if>
       <if test="record.age != null">
         age = #{record.age,jdbcType=INTEGER},
@@ -229,6 +270,18 @@
       </if>
       <if test="record.count != null">
         count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowDay != null">
+        borrow_day = #{record.borrowDay,jdbcType=INTEGER},
+      </if>
+      <if test="record.returnDate != null">
+        return_date = #{record.returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualDate != null">
+        actual_date = #{record.actualDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createUser != null">
         create_user = #{record.createUser,jdbcType=VARCHAR},
@@ -250,13 +303,18 @@
   <update id="updateByExample" parameterType="map">
     update t_borrow
     set id = #{record.id,jdbcType=INTEGER},
+      serial_no = #{record.serialNo,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=BIT},
+      sex = #{record.sex,jdbcType=INTEGER},
       age = #{record.age,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       book_id = #{record.bookId,jdbcType=INTEGER},
       count = #{record.count,jdbcType=INTEGER},
+      borrow_day = #{record.borrowDay,jdbcType=INTEGER},
+      return_date = #{record.returnDate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      actual_date = #{record.actualDate,jdbcType=TIMESTAMP},
       create_user = #{record.createUser,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       modify_user = #{record.modifyUser,jdbcType=VARCHAR},
@@ -268,11 +326,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.self.library.entity.BorrowEntity">
     update t_borrow
     <set>
+      <if test="serialNo != null">
+        serial_no = #{serialNo,jdbcType=VARCHAR},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
-        sex = #{sex,jdbcType=BIT},
+        sex = #{sex,jdbcType=INTEGER},
       </if>
       <if test="age != null">
         age = #{age,jdbcType=INTEGER},
@@ -288,6 +349,18 @@
       </if>
       <if test="count != null">
         count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="borrowDay != null">
+        borrow_day = #{borrowDay,jdbcType=INTEGER},
+      </if>
+      <if test="returnDate != null">
+        return_date = #{returnDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="actualDate != null">
+        actual_date = #{actualDate,jdbcType=TIMESTAMP},
       </if>
       <if test="createUser != null">
         create_user = #{createUser,jdbcType=VARCHAR},
@@ -306,13 +379,18 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.self.library.entity.BorrowEntity">
     update t_borrow
-    set name = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=BIT},
+    set serial_no = #{serialNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
       age = #{age,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       book_id = #{bookId,jdbcType=INTEGER},
       count = #{count,jdbcType=INTEGER},
+      borrow_day = #{borrowDay,jdbcType=INTEGER},
+      return_date = #{returnDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      actual_date = #{actualDate,jdbcType=TIMESTAMP},
       create_user = #{createUser,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_user = #{modifyUser,jdbcType=VARCHAR},
@@ -321,17 +399,21 @@
   </update>
 
   <insert id="saveList">
-    insert into t_borrow(`name`, sex, age, phone, address, book_id, `count`, create_user)
+    insert into t_borrow(serial_no, `name`, sex, age, phone, address, book_id, `count`, borrow_day, return_date, status, create_user)
     values
     <foreach collection="list" item="item" separator=",">
       (
+        #{item.serialNo},
         #{item.name},
         #{item.sex},
         #{item.age},
         #{item.phone},
         #{item.address},
-        #{item.bookIds},
+        #{item.bookId},
         #{item.count},
+        #{item.borrowDay},
+        #{item.returnDate},
+        #{item.status},
         #{item.createUser}
       )
     </foreach>

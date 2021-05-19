@@ -27,6 +27,7 @@ public class SwaggerConfig
     /**
      * 配置swagger基本信息
      * http://localhost:8085/swagger-ui/
+     *
      * @param environment
      * @return
      */

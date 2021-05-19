@@ -1,5 +1,7 @@
-package com.self.library.entity;
+package com.self.library.dto;
 
+import com.self.library.entity.PublishEntity;
+import com.self.library.entity.TagEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,12 +10,19 @@ import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @Author Administrator
+ * @Title:
+ * @Description:
+ * @Date 2021-05-19 20:48
+ * @Version: 1.0
+ */
 @Data
 @EqualsAndHashCode(exclude = {"id", "lend"}, callSuper = false)
-@ApiModel("书籍实体")
-public class BookEntity extends BaseEntity
+@ApiModel("书籍包装")
+public class BookDTO extends BaseDTO
 {
-    private static final long serialVersionUID = -2069345768173380555L;
+    private static final long serialVersionUID = -3911578384683027202L;
 
     @ApiModelProperty(value = "书籍ID", example = "1")
     private Integer id;
@@ -29,12 +38,12 @@ public class BookEntity extends BaseEntity
     private Integer count;
     @ApiModelProperty(value = "借出数量", example = "5")
     private Integer lend;
-    @ApiModelProperty(value = "标签ID", example = "1", required = true)
-    private Integer tagId;
-    @ApiModelProperty(value = "出版社ID", example = "1", required = true)
-    private Integer publishId;
     @ApiModelProperty(value = "作者", example = "李狗蛋")
     private String author;
     @ApiModelProperty(value = "出版日期", example = "2010-07-15")
     private Date publishDate;
+    @ApiModelProperty(value = "标签")
+    private TagEntity tag;
+    @ApiModelProperty(value = "出版社")
+    private PublishEntity publish;
 }

@@ -12,27 +12,37 @@ import java.util.List;
 @Repository
 public interface BookDao
 {
-    long countByExample(BookExample example);
+    Long countByExample(BookExample example);
 
-    int deleteByExample(BookExample example);
+    Integer deleteByExample(BookExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    Integer deleteByPrimaryKey(Integer id);
 
-    int insert(BookEntity record);
+    Integer insert(BookEntity record);
 
-    int insertSelective(BookEntity record);
+    Integer insertSelective(BookEntity record);
 
     List<BookEntity> selectByExample(BookExample example);
 
     BookEntity selectByPrimaryKey(Integer id);
 
-    int updateByExampleSelective(@Param("record") BookEntity record, @Param("example") BookExample example);
+    Integer updateByExampleSelective(@Param("record") BookEntity record, @Param("example") BookExample example);
 
-    int updateByExample(@Param("record") BookEntity record, @Param("example") BookExample example);
+    Integer updateByExample(@Param("record") BookEntity record, @Param("example") BookExample example);
 
-    int updateByPrimaryKeySelective(BookEntity record);
+    Integer updateByPrimaryKeySelective(BookEntity record);
 
-    int updateByPrimaryKey(BookEntity record);
+    Integer updateByPrimaryKey(BookEntity record);
 
     Integer saveBooks(@Param("list") List<BookEntity> list);
+
+    Integer updateCount(BookEntity entity);
+
+    Integer updateMinusList(@Param("list") List<BookEntity> list);
+
+    Integer updatePlusList(@Param("list") List<BookEntity> list);
+
+    Integer updateMinusOne(BookEntity book);
+
+    Integer updatePlusOne(BookEntity book);
 }

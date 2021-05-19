@@ -1,8 +1,10 @@
 package com.self.library.service;
 
 import com.github.pagehelper.PageInfo;
+import com.self.library.dto.BorrowInDTO;
+import com.self.library.dto.BorrowOutDTO;
 import com.self.library.dto.PageDTO;
-import com.self.library.entity.BookEntity;
+import com.self.library.dto.SevenDTO;
 import com.self.library.entity.BorrowEntity;
 
 import java.util.List;
@@ -20,13 +22,23 @@ public interface BorrowService
 
     Integer saveList(List<BorrowEntity> entities);
 
-    PageInfo<BorrowEntity> page(PageDTO<BorrowEntity> page);
+    PageInfo<BorrowOutDTO> page(PageDTO<BorrowInDTO> page);
 
-    BorrowEntity findById(Integer id);
+    BorrowOutDTO findById(Integer id);
 
     Integer delete(Integer id);
 
-    Integer modify(BorrowEntity entity);
+    Integer deleteBySerialNo(String serialNo);
 
-    List<BorrowEntity> findAll();
+    Boolean modify(BorrowEntity entity);
+
+    List<BorrowOutDTO> findAll();
+
+    List<BorrowOutDTO> findBySerialNo(String serialNo);
+
+    Boolean returnOne(BorrowEntity entity);
+
+    Boolean returnAll(BorrowEntity entity);
+
+    List<SevenDTO<BorrowOutDTO>> seven(List<SevenDTO<BorrowEntity>> queryList);
 }

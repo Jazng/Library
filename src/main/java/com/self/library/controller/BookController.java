@@ -4,8 +4,10 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
+import com.self.library.dto.BookDTO;
 import com.self.library.dto.PageDTO;
 import com.self.library.dto.ResultDTO;
+import com.self.library.dto.SevenDTO;
 import com.self.library.entity.BookEntity;
 import com.self.library.service.BookService;
 import com.self.library.utils.JWTUtils;
@@ -20,7 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,7 +102,7 @@ public class BookController
     @PostMapping("/page")
     @ApiOperation("分页和模糊查询查询接口")
     @ApiImplicitParam(name = "page", value = "分页和模糊查询条件信息包装", required = true)
-    public ResultDTO<PageInfo<BookEntity>> page(@RequestBody PageDTO<BookEntity> page)
+    public ResultDTO<PageInfo<BookDTO>> page(@RequestBody PageDTO<BookEntity> page)
     {
         try
         {
@@ -115,7 +122,7 @@ public class BookController
     @GetMapping("/findById")
     @ApiOperation("根据ID查询书籍接口")
     @ApiImplicitParam(name = "id", value = "书籍ID", required = true, dataType = "integer", defaultValue = "1", example = "2")
-    public ResultDTO<BookEntity> findById(@RequestParam("id") Integer id)
+    public ResultDTO<BookDTO> findById(@RequestParam("id") Integer id)
     {
         try
         {
@@ -191,7 +198,7 @@ public class BookController
 
     @GetMapping("/findAll")
     @ApiOperation("查询所有书籍接口")
-    public ResultDTO<ArrayList<BookEntity>> findAll()
+    public ResultDTO<ArrayList<BookDTO>> findAll()
     {
         try
         {
@@ -202,5 +209,45 @@ public class BookController
             log.error(LibraryConstant.QUERY_ERROR);
             return new ResultDTO<>(LibraryConstant.QUERY_ERROR, ResultDTO.FAIL);
         }
+    }
+
+    @GetMapping("/seven")
+    @ApiOperation("最近7天的书籍及库存信息")
+    public ResultDTO<SevenDTO<BookEntity>> seven()
+    {
+        try
+        {
+            List<SevenDTO<BookEntity>> queryList = new ArrayList<>(8);
+            //时区
+            ZoneId zoneId = ZoneId.systemDefault();
+            //获取7天的每天的区间
+            for (int i = 0; i < LibraryConstant.SEVEN; i++)
+            {
+                SevenDTO<BookEntity> sevenDTO = new SevenDTO<>();
+                //当前日期，不带时间
+                LocalDate now = LocalDate.now();
+                //时间偏移量操作
+                LocalDate day = now.minusDays(i);
+                LocalDate nowPlusOne = day.plusDays(1);
+                ZonedDateTime zonedDateTime = nowPlusOne.atStartOfDay(zoneId);
+                Instant instant = zonedDateTime.toInstant();
+                Date date = Date.from(instant);
+                //实际只需要一个就行
+                Pair<Date, Date> pair = Pair.of(date, date);
+                sevenDTO.setPair(pair);
+                sevenDTO.setDate(day);
+                queryList.add(sevenDTO);
+            }
+            if (CollectionUtils.isNotEmpty(queryList))
+            {
+                return new ResultDTO<>(bookService.seven(queryList));
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(LibraryConstant.QUERY_ERROR, e);
+            return new ResultDTO<>(LibraryConstant.QUERY_ERROR, ResultDTO.FAIL);
+        }
+        return new ResultDTO<>(LibraryConstant.QUERY_FAIL, ResultDTO.FAIL);
     }
 }

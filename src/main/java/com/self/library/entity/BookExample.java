@@ -444,145 +444,217 @@ public class BookExample
 
         public Criteria andShowIsNull()
         {
-            addCriterion("show is null");
+            addCriterion("`show` is null");
             return (Criteria) this;
         }
 
         public Criteria andShowIsNotNull()
         {
-            addCriterion("show is not null");
+            addCriterion("`show` is not null");
             return (Criteria) this;
         }
 
         public Criteria andShowEqualTo(Boolean value)
         {
-            addCriterion("show =", value, "show");
+            addCriterion("`show` =", value, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowNotEqualTo(Boolean value)
         {
-            addCriterion("show <>", value, "show");
+            addCriterion("`show` <>", value, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowGreaterThan(Boolean value)
         {
-            addCriterion("show >", value, "show");
+            addCriterion("`show` >", value, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowGreaterThanOrEqualTo(Boolean value)
         {
-            addCriterion("show >=", value, "show");
+            addCriterion("`show` >=", value, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowLessThan(Boolean value)
         {
-            addCriterion("show <", value, "show");
+            addCriterion("`show` <", value, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowLessThanOrEqualTo(Boolean value)
         {
-            addCriterion("show <=", value, "show");
+            addCriterion("`show` <=", value, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowIn(List<Boolean> values)
         {
-            addCriterion("show in", values, "show");
+            addCriterion("`show` in", values, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowNotIn(List<Boolean> values)
         {
-            addCriterion("show not in", values, "show");
+            addCriterion("`show` not in", values, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowBetween(Boolean value1, Boolean value2)
         {
-            addCriterion("show between", value1, value2, "show");
+            addCriterion("`show` between", value1, value2, "show");
             return (Criteria) this;
         }
 
         public Criteria andShowNotBetween(Boolean value1, Boolean value2)
         {
-            addCriterion("show not between", value1, value2, "show");
+            addCriterion("`show` not between", value1, value2, "show");
             return (Criteria) this;
         }
 
         public Criteria andCountIsNull()
         {
-            addCriterion("count is null");
+            addCriterion("`count` is null");
             return (Criteria) this;
         }
 
         public Criteria andCountIsNotNull()
         {
-            addCriterion("count is not null");
+            addCriterion("`count` is not null");
             return (Criteria) this;
         }
 
         public Criteria andCountEqualTo(Integer value)
         {
-            addCriterion("count =", value, "count");
+            addCriterion("`count` =", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountNotEqualTo(Integer value)
         {
-            addCriterion("count <>", value, "count");
+            addCriterion("`count` <>", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountGreaterThan(Integer value)
         {
-            addCriterion("count >", value, "count");
+            addCriterion("`count` >", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountGreaterThanOrEqualTo(Integer value)
         {
-            addCriterion("count >=", value, "count");
+            addCriterion("`count` >=", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountLessThan(Integer value)
         {
-            addCriterion("count <", value, "count");
+            addCriterion("`count` <", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountLessThanOrEqualTo(Integer value)
         {
-            addCriterion("count <=", value, "count");
+            addCriterion("`count` <=", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountIn(List<Integer> values)
         {
-            addCriterion("count in", values, "count");
+            addCriterion("`count` in", values, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountNotIn(List<Integer> values)
         {
-            addCriterion("count not in", values, "count");
+            addCriterion("`count` not in", values, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountBetween(Integer value1, Integer value2)
         {
-            addCriterion("count between", value1, value2, "count");
+            addCriterion("`count` between", value1, value2, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountNotBetween(Integer value1, Integer value2)
         {
-            addCriterion("count not between", value1, value2, "count");
+            addCriterion("`count` not between", value1, value2, "count");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendIsNull()
+        {
+            addCriterion("lend is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendIsNotNull()
+        {
+            addCriterion("lend is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendEqualTo(Integer value)
+        {
+            addCriterion("lend =", value, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendNotEqualTo(Integer value)
+        {
+            addCriterion("lend <>", value, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendGreaterThan(Integer value)
+        {
+            addCriterion("lend >", value, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendGreaterThanOrEqualTo(Integer value)
+        {
+            addCriterion("lend >=", value, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendLessThan(Integer value)
+        {
+            addCriterion("lend <", value, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendLessThanOrEqualTo(Integer value)
+        {
+            addCriterion("lend <=", value, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendIn(List<Integer> values)
+        {
+            addCriterion("lend in", values, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendNotIn(List<Integer> values)
+        {
+            addCriterion("lend not in", values, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendBetween(Integer value1, Integer value2)
+        {
+            addCriterion("lend between", value1, value2, "lend");
+            return (Criteria) this;
+        }
+
+        public Criteria andLendNotBetween(Integer value1, Integer value2)
+        {
+            addCriterion("lend not between", value1, value2, "lend");
             return (Criteria) this;
         }
 

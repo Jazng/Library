@@ -201,6 +201,90 @@ public class BorrowExample
             return (Criteria) this;
         }
 
+        public Criteria andSerialNoIsNull()
+        {
+            addCriterion("serial_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoIsNotNull()
+        {
+            addCriterion("serial_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoEqualTo(String value)
+        {
+            addCriterion("serial_no =", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoNotEqualTo(String value)
+        {
+            addCriterion("serial_no <>", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoGreaterThan(String value)
+        {
+            addCriterion("serial_no >", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoGreaterThanOrEqualTo(String value)
+        {
+            addCriterion("serial_no >=", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoLessThan(String value)
+        {
+            addCriterion("serial_no <", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoLessThanOrEqualTo(String value)
+        {
+            addCriterion("serial_no <=", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoLike(String value)
+        {
+            addCriterion("serial_no like", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoNotLike(String value)
+        {
+            addCriterion("serial_no not like", value, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoIn(List<String> values)
+        {
+            addCriterion("serial_no in", values, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoNotIn(List<String> values)
+        {
+            addCriterion("serial_no not in", values, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoBetween(String value1, String value2)
+        {
+            addCriterion("serial_no between", value1, value2, "serialNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSerialNoNotBetween(String value1, String value2)
+        {
+            addCriterion("serial_no not between", value1, value2, "serialNo");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull()
         {
             addCriterion("name is null");
@@ -738,6 +822,294 @@ public class BorrowExample
         public Criteria andCountNotBetween(Integer value1, Integer value2)
         {
             addCriterion("count not between", value1, value2, "count");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayIsNull()
+        {
+            addCriterion("borrow_day is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayIsNotNull()
+        {
+            addCriterion("borrow_day is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayEqualTo(Integer value)
+        {
+            addCriterion("borrow_day =", value, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayNotEqualTo(Integer value)
+        {
+            addCriterion("borrow_day <>", value, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayGreaterThan(Integer value)
+        {
+            addCriterion("borrow_day >", value, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayGreaterThanOrEqualTo(Integer value)
+        {
+            addCriterion("borrow_day >=", value, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayLessThan(Integer value)
+        {
+            addCriterion("borrow_day <", value, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayLessThanOrEqualTo(Integer value)
+        {
+            addCriterion("borrow_day <=", value, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayIn(List<Integer> values)
+        {
+            addCriterion("borrow_day in", values, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayNotIn(List<Integer> values)
+        {
+            addCriterion("borrow_day not in", values, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayBetween(Integer value1, Integer value2)
+        {
+            addCriterion("borrow_day between", value1, value2, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andBorrowDayNotBetween(Integer value1, Integer value2)
+        {
+            addCriterion("borrow_day not between", value1, value2, "borrowDay");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateIsNull()
+        {
+            addCriterion("return_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateIsNotNull()
+        {
+            addCriterion("return_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateEqualTo(Date value)
+        {
+            addCriterion("return_date =", value, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateNotEqualTo(Date value)
+        {
+            addCriterion("return_date <>", value, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateGreaterThan(Date value)
+        {
+            addCriterion("return_date >", value, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateGreaterThanOrEqualTo(Date value)
+        {
+            addCriterion("return_date >=", value, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateLessThan(Date value)
+        {
+            addCriterion("return_date <", value, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateLessThanOrEqualTo(Date value)
+        {
+            addCriterion("return_date <=", value, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateIn(List<Date> values)
+        {
+            addCriterion("return_date in", values, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateNotIn(List<Date> values)
+        {
+            addCriterion("return_date not in", values, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateBetween(Date value1, Date value2)
+        {
+            addCriterion("return_date between", value1, value2, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andReturnDateNotBetween(Date value1, Date value2)
+        {
+            addCriterion("return_date not between", value1, value2, "returnDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNull()
+        {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull()
+        {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Integer value)
+        {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Integer value)
+        {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Integer value)
+        {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value)
+        {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Integer value)
+        {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Integer value)
+        {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Integer> values)
+        {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Integer> values)
+        {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Integer value1, Integer value2)
+        {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Integer value1, Integer value2)
+        {
+            addCriterion("status not between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateIsNull()
+        {
+            addCriterion("actual_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateIsNotNull()
+        {
+            addCriterion("actual_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateEqualTo(Date value)
+        {
+            addCriterion("actual_date =", value, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateNotEqualTo(Date value)
+        {
+            addCriterion("actual_date <>", value, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateGreaterThan(Date value)
+        {
+            addCriterion("actual_date >", value, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateGreaterThanOrEqualTo(Date value)
+        {
+            addCriterion("actual_date >=", value, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateLessThan(Date value)
+        {
+            addCriterion("actual_date <", value, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateLessThanOrEqualTo(Date value)
+        {
+            addCriterion("actual_date <=", value, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateIn(List<Date> values)
+        {
+            addCriterion("actual_date in", values, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateNotIn(List<Date> values)
+        {
+            addCriterion("actual_date not in", values, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateBetween(Date value1, Date value2)
+        {
+            addCriterion("actual_date between", value1, value2, "actualDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualDateNotBetween(Date value1, Date value2)
+        {
+            addCriterion("actual_date not between", value1, value2, "actualDate");
             return (Criteria) this;
         }
 

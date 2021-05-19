@@ -1,7 +1,9 @@
 package com.self.library.service;
 
 import com.github.pagehelper.PageInfo;
+import com.self.library.dto.BookDTO;
 import com.self.library.dto.PageDTO;
+import com.self.library.dto.SevenDTO;
 import com.self.library.entity.BookEntity;
 
 import java.util.List;
@@ -19,13 +21,15 @@ public interface BookService
 
     Integer saveList(List<BookEntity> entities);
 
-    PageInfo<BookEntity> page(PageDTO<BookEntity> page);
+    PageInfo<BookDTO> page(PageDTO<BookEntity> page);
 
-    BookEntity findById(Integer id);
+    BookDTO findById(Integer id);
 
     Integer delete(Integer id);
 
     Integer modify(BookEntity entity);
 
-    List<BookEntity> findAll();
+    List<BookDTO> findAll();
+
+    List<SevenDTO<BookEntity>> seven(List<SevenDTO<BookEntity>> queryList);
 }

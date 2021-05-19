@@ -4,16 +4,21 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
 import com.self.library.dao.BookDao;
+import com.self.library.dao.BorrowDao;
 import com.self.library.dao.PublishDao;
 import com.self.library.dao.TagDao;
+import com.self.library.dto.BookDTO;
 import com.self.library.dto.PageDTO;
+import com.self.library.dto.SevenDTO;
 import com.self.library.entity.*;
 import com.self.library.service.BookService;
+import com.zeng.extension.functional.FunctionalUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 /**
@@ -45,7 +51,10 @@ public class BookServiceImpl implements BookService
     private PublishDao publishDao;
 
     @Autowired
-    private ThreadPoolTaskExecutor executor;
+    private BorrowDao borrowDao;
+
+    @Autowired
+    private Executor executor;
 
     @Override
     public Integer save(BookEntity entity)
@@ -64,6 +73,7 @@ public class BookServiceImpl implements BookService
             }
             if (tagId == null)
             {
+                //线程1
                 CompletableFuture<TagEntity> tagFirstFuture = CompletableFuture.supplyAsync(() ->
                 {
                     TagEntity tag = null;
@@ -80,6 +90,7 @@ public class BookServiceImpl implements BookService
             }
             if (publishId == null)
             {
+                //线程2
                 CompletableFuture<PublishEntity> publishFirstFuture = CompletableFuture.supplyAsync(() ->
                 {
                     PublishEntity publish = null;
@@ -132,6 +143,7 @@ public class BookServiceImpl implements BookService
                     {
                         entity.setPublishId(publish.getId());
                     }
+                    entity.setLend(0);
                     count = bookDao.insertSelective(entity);
                 }
             }
@@ -169,7 +181,7 @@ public class BookServiceImpl implements BookService
 
             if (CollectionUtils.isNotEmpty(insertList))
             {
-                //线程
+                //线程1
                 CompletableFuture<TagEntity> tagFirstFuture = CompletableFuture.supplyAsync(() ->
                 {
                     TagEntity tag = null;
@@ -182,7 +194,7 @@ public class BookServiceImpl implements BookService
                     }
                     return tag;
                 }, executor);
-                //线程
+                //线程2
                 CompletableFuture<PublishEntity> publishFirstFuture = CompletableFuture.supplyAsync(() ->
                 {
                     PublishEntity publish = null;
@@ -208,6 +220,7 @@ public class BookServiceImpl implements BookService
                     {
                         insert.setPublishId(publish.getId());
                     }
+                    insert.setLend(0);
                 });
                 count = bookDao.saveBooks(insertList);
             }
@@ -224,9 +237,9 @@ public class BookServiceImpl implements BookService
     }
 
     @Override
-    public PageInfo<BookEntity> page(PageDTO<BookEntity> page)
+    public PageInfo<BookDTO> page(PageDTO<BookEntity> page)
     {
-        PageInfo<BookEntity> pageInfo = null;
+        PageInfo<BookDTO> pageInfo = null;
         try
         {
             //没传赋予默认值
@@ -306,7 +319,76 @@ public class BookServiceImpl implements BookService
             //分页
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
             List<BookEntity> list = bookDao.selectByExample(example);
-            pageInfo = new PageInfo<>(list);
+            PageInfo<BookEntity> bookPage = new PageInfo<>(list);
+            //标签线程
+            CompletableFuture<List<TagEntity>> tagFuture = CompletableFuture.supplyAsync(() ->
+            {
+                List<TagEntity> tags = null;
+                List<Integer> tagIds = list.stream().map(BookEntity::getTagId).distinct().collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(tagIds))
+                {
+                    TagExample tagExample = new TagExample();
+                    TagExample.Criteria criteria = tagExample.createCriteria();
+                    criteria.andIdIn(tagIds);
+                    tags = tagDao.selectByExample(tagExample);
+                }
+                return tags;
+            }, executor);
+            //出版社线程
+            CompletableFuture<List<PublishEntity>> publishFuture = CompletableFuture.supplyAsync(() ->
+            {
+                List<PublishEntity> publishes = null;
+                List<Integer> publishIds = list.stream().map(BookEntity::getPublishId).distinct().collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(publishIds))
+                {
+                    PublishExample publishExample = new PublishExample();
+                    PublishExample.Criteria criteria = publishExample.createCriteria();
+                    criteria.andIdIn(publishIds);
+                    publishes = publishDao.selectByExample(publishExample);
+                }
+                return publishes;
+            }, executor);
+            //异步执行
+            CompletableFuture.allOf(tagFuture, publishFuture).join();
+            //标签
+            List<TagEntity> tags = tagFuture.get();
+            //出版社
+            List<PublishEntity> publishes = publishFuture.get();
+            List<BookDTO> bookList = list.stream().map(book ->
+            {
+                //复制属性
+                BookDTO bookDTO = new BookDTO();
+                BeanUtils.copyProperties(book, bookDTO);
+                //找到相应的tag
+                if (CollectionUtils.isNotEmpty(tags))
+                {
+                    for (TagEntity tag : tags)
+                    {
+                        if (book.getTagId().equals(tag.getId()))
+                        {
+                            bookDTO.setTag(tag);
+                            break;
+                        }
+                    }
+                }
+                //找到相应publish
+                if (CollectionUtils.isNotEmpty(publishes))
+                {
+                    for (PublishEntity publish : publishes)
+                    {
+                        if (book.getPublishId().equals(publish.getId()))
+                        {
+                            bookDTO.setPublish(publish);
+                            break;
+                        }
+                    }
+                }
+                //返回新的对象
+                return bookDTO;
+            }).collect(Collectors.toList());
+            pageInfo = new PageInfo<>();
+            BeanUtils.copyProperties(bookPage, pageInfo);
+            pageInfo.setList(bookList);
         }
         catch (Exception e)
         {
@@ -316,11 +398,29 @@ public class BookServiceImpl implements BookService
     }
 
     @Override
-    public BookEntity findById(Integer id)
+    public BookDTO findById(Integer id)
     {
         try
         {
-            return bookDao.selectByPrimaryKey(id);
+            BookEntity book = bookDao.selectByPrimaryKey(id);
+            BookDTO bookDTO = null;
+            if (book != null)
+            {
+                bookDTO = new BookDTO();
+                BeanUtils.copyProperties(book, bookDTO);
+                //标签
+                CompletableFuture<TagEntity> tagFuture = CompletableFuture.supplyAsync(() -> tagDao.selectByPrimaryKey(book.getTagId()), executor);
+                //出版社
+                CompletableFuture<PublishEntity> publishFuture = CompletableFuture.supplyAsync(() -> publishDao.selectByPrimaryKey(book.getPublishId()), executor);
+                //异步执行
+                CompletableFuture.allOf(tagFuture, publishFuture).join();
+                TagEntity tag = tagFuture.get();
+                PublishEntity publish = publishFuture.get();
+                bookDTO.setTag(tag);
+                bookDTO.setPublish(publish);
+            }
+
+            return bookDTO;
         }
         catch (Exception e)
         {
@@ -358,8 +458,168 @@ public class BookServiceImpl implements BookService
     }
 
     @Override
-    public List<BookEntity> findAll()
+    public List<BookDTO> findAll()
     {
-        return bookDao.selectByExample(new BookExample());
+        List<BookDTO> bookList = null;
+        try
+        {
+            List<BookEntity> list = bookDao.selectByExample(new BookExample());
+            //标签线程
+            CompletableFuture<List<TagEntity>> tagFuture = CompletableFuture.supplyAsync(() ->
+            {
+                List<TagEntity> tags = null;
+                List<Integer> tagIds = list.stream().map(BookEntity::getTagId).distinct().collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(tagIds))
+                {
+                    TagExample tagExample = new TagExample();
+                    TagExample.Criteria criteria = tagExample.createCriteria();
+                    criteria.andIdIn(tagIds);
+                    tags = tagDao.selectByExample(tagExample);
+                }
+                return tags;
+            }, executor);
+            //出版社线程
+            CompletableFuture<List<PublishEntity>> publishFuture = CompletableFuture.supplyAsync(() ->
+            {
+                List<PublishEntity> publishes = null;
+                List<Integer> publishIds = list.stream().map(BookEntity::getPublishId).distinct().collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(publishIds))
+                {
+                    PublishExample publishExample = new PublishExample();
+                    PublishExample.Criteria criteria = publishExample.createCriteria();
+                    criteria.andIdIn(publishIds);
+                    publishes = publishDao.selectByExample(publishExample);
+                }
+                return publishes;
+            }, executor);
+            //异步执行
+            CompletableFuture.allOf(tagFuture, publishFuture).join();
+            //标签
+            List<TagEntity> tags = tagFuture.get();
+            //出版社
+            List<PublishEntity> publishes = publishFuture.get();
+            bookList = list.stream().map(book ->
+            {
+                //复制属性
+                BookDTO bookDTO = new BookDTO();
+                BeanUtils.copyProperties(book, bookDTO);
+                //找到相应的tag
+                if (CollectionUtils.isNotEmpty(tags))
+                {
+                    for (TagEntity tag : tags)
+                    {
+                        if (book.getTagId().equals(tag.getId()))
+                        {
+                            bookDTO.setTag(tag);
+                            break;
+                        }
+                    }
+                }
+                //找到相应publish
+                if (CollectionUtils.isNotEmpty(publishes))
+                {
+                    for (PublishEntity publish : publishes)
+                    {
+                        if (book.getPublishId().equals(publish.getId()))
+                        {
+                            bookDTO.setPublish(publish);
+                            break;
+                        }
+                    }
+                }
+                //返回新的对象
+                return bookDTO;
+            }).collect(Collectors.toList());
+        }
+        catch (Exception e)
+        {
+            log.error(LibraryConstant.QUERY_ERROR);
+        }
+        return bookList;
+    }
+
+    @Override
+    public List<SevenDTO<BookEntity>> seven(List<SevenDTO<BookEntity>> queryList)
+    {
+        List<SevenDTO<BookEntity>> list = new ArrayList<>(8);
+
+        try
+        {
+            //线程集合，所有线程放入一个集合，一次性交给线程池异步执行
+            List<CompletableFuture<SevenDTO<BookEntity>>> futureList = new ArrayList<>(8);
+            queryList.forEach(seven ->
+            {
+                //线程：FunctionalUtils为学长所创依赖
+                CompletableFuture<SevenDTO<BookEntity>> future = CompletableFuture.supplyAsync(FunctionalUtils.supplier(() ->
+                {
+                    Pair<Date, Date> pair = seven.getPair();
+                    //子线程1
+                    CompletableFuture<Integer> bookFuture = CompletableFuture.supplyAsync(() ->
+                    {
+                        //某天书籍总数
+                        BookExample example = new BookExample();
+                        BookExample.Criteria criteria = example.createCriteria();
+                        criteria.andCreateDateLessThanOrEqualTo(pair.getLeft());
+                        List<BookEntity> books = bookDao.selectByExample(example);
+
+                        //计算书籍总数
+                        Integer bookCount = 0;
+                        if (CollectionUtils.isNotEmpty(books))
+                        {
+                            for (BookEntity book : books)
+                            {
+                                bookCount += book.getCount();
+                            }
+                        }
+                        return bookCount;
+                    }, executor);
+                    //子线程2
+                    CompletableFuture<Integer> borrowFuture = CompletableFuture.supplyAsync(() ->
+                    {
+                        BorrowExample example = new BorrowExample();
+                        BorrowExample.Criteria criteria = example.createCriteria();
+                        criteria.andCreateDateLessThanOrEqualTo(pair.getLeft());
+                        List<BorrowEntity> borrows = borrowDao.selectByExample(example);
+                        Integer borrowCount = 0;
+                        if (CollectionUtils.isNotEmpty(borrows))
+                        {
+                            for (BorrowEntity borrow : borrows)
+                            {
+                                borrowCount += borrow.getCount();
+                            }
+                        }
+                        return borrowCount;
+                    }, executor);
+                    CompletableFuture.allOf(bookFuture, borrowFuture).join();
+                    Integer bookCount = bookFuture.get();
+                    Integer borrowCount = borrowFuture.get();
+                    SevenDTO<BookEntity> sevenDTO = new SevenDTO<>();
+                    sevenDTO.setDate(seven.getDate());
+                    sevenDTO.setCount(bookCount - borrowCount);
+                    return sevenDTO;
+                }), executor);
+                futureList.add(future);
+            });
+            if (CollectionUtils.isNotEmpty(futureList))
+            {
+                CompletableFuture[] futures = new CompletableFuture[futureList.size()];
+                //异步执行
+                CompletableFuture.allOf(futureList.toArray(futures)).join();
+                //循环获取每个线程的结果
+                for (CompletableFuture<SevenDTO<BookEntity>> future : futureList)
+                {
+                    SevenDTO<BookEntity> sevenDTO = future.get();
+                    if (sevenDTO != null)
+                    {
+                        list.add(sevenDTO);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(LibraryConstant.QUERY_ERROR, e);
+        }
+        return list;
     }
 }

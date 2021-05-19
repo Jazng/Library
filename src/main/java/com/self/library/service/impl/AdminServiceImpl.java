@@ -10,12 +10,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 import static com.self.library.constant.LibraryConstant.*;
 
@@ -31,7 +31,7 @@ import static com.self.library.constant.LibraryConstant.*;
 public class AdminServiceImpl implements AdminService
 {
     @Autowired
-    private ThreadPoolTaskExecutor executor;
+    private Executor executor;
 
     @Autowired
     private UserDao userDao;

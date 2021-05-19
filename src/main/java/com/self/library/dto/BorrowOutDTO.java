@@ -1,21 +1,28 @@
-package com.self.library.entity;
+package com.self.library.dto;
 
+import com.self.library.entity.BookEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @Author Administrator
+ * @Title:
+ * @Description:
+ * @Date 2021-05-16 13:54
+ * @Version: 1.0
+ */
 @Data
-@ApiModel("借阅实体")
-public class BorrowEntity extends BaseEntity
+@ApiModel("借阅返回封装")
+public class BorrowOutDTO implements Serializable
 {
-    private static final long serialVersionUID = 7720155488788160636L;
+    private static final long serialVersionUID = -8554500009731792922L;
 
-    @ApiModelProperty(value = "借阅ID",example = "1")
+    @ApiModelProperty(value = "借阅ID", example = "1")
     private Integer id;
-    @ApiModelProperty(value = "借阅号")
-    private String serialNo;
     @ApiModelProperty(value = "借阅人姓名", example = "王杰斌")
     private String name;
     @ApiModelProperty(value = "借阅人性别", example = "0")
@@ -26,8 +33,6 @@ public class BorrowEntity extends BaseEntity
     private String phone;
     @ApiModelProperty(value = "借阅人地址", example = "四川省成都市锦江区东大街")
     private String address;
-    @ApiModelProperty(value = "借阅书籍ID", example = "1")
-    private Integer bookId;
     @ApiModelProperty(value = "借阅此书数量", example = "1")
     private Integer count;
     @ApiModelProperty(value = "借阅天数", example = "1")
@@ -36,6 +41,8 @@ public class BorrowEntity extends BaseEntity
     private Date returnDate;
     @ApiModelProperty(value = "状态", example = "1")
     private Integer status;
-    @ApiModelProperty(value = "实际归还日期", example = "2021-03-02")
+    @ApiModelProperty(value = "开始实际归还日期", example = "2021-03-02")
     private Date actualDate;
+    @ApiModelProperty(value = "借阅书籍")
+    private BookEntity book;
 }

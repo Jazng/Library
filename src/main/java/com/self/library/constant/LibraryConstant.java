@@ -116,4 +116,14 @@ public interface LibraryConstant
     String FILE_UPLOAD_SUCCESS = "文件上传成功";
     String FILE_UPLOAD_FAIL = "文件上传失败";
     String FILE_UPLOAD_ERROR = "文件上传出错";
+
+    //借阅
+    String SAVE_COUNT_OVERFLOW = "借阅数量大于剩余数量";
+    String SOME_SAVE_COUNT_OVERFLOW = "部分借阅数量大于剩余数量";
+    String RETURN_FAIL= "归还失败";
+    String RETURN_ERROR= "归还错误";
+    Integer SEVEN = 7;
+
+    //线程
+    String THREAD_POOL_ERROR = "线程池处理异常";
 }

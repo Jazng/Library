@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -15,10 +16,10 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @Version: 1.0
  */
 @Configuration
-public class ThreadPoolConfig
+public class ExecutorConfig
 {
     @Bean
-    public ThreadPoolTaskExecutor executor()
+    public Executor executor()
     {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(10);
