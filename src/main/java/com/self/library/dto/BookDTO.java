@@ -38,6 +38,10 @@ public class BookDTO extends BaseDTO
     private Integer count;
     @ApiModelProperty(value = "借出数量", example = "5")
     private Integer lend;
+    @ApiModelProperty(value = "标签ID", example = "1", required = true)
+    private Integer tagId;
+    @ApiModelProperty(value = "出版社ID", example = "1", required = true)
+    private Integer publishId;
     @ApiModelProperty(value = "作者", example = "李狗蛋")
     private String author;
     @ApiModelProperty(value = "出版日期", example = "2010-07-15")
