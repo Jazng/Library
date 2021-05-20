@@ -106,6 +106,12 @@ public interface LibraryConstant
     String DELETE_SUCCESS = "删除成功";
     String DELETE_FAIL = "删除失败";
     String DELETE_ERROR = "删除出错";
+    //删除书籍
+    String BOOK_HAVE_BORROW = "此书籍有借阅未归还，无法删除";
+    //删除标签
+    String TAG_HAVE_BOOK = "此标签下有书籍，无法删除";
+    //删除出版社
+    String PUBLISH_HAVE_BOOK = "此出版社下有书籍，无法删除";
 
     //修改
     String MODIFY_SUCCESS = "修改成功";

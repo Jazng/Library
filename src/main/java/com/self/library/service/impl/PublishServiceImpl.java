@@ -3,8 +3,10 @@ package com.self.library.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
+import com.self.library.dao.BookDao;
 import com.self.library.dao.PublishDao;
 import com.self.library.dto.PageDTO;
+import com.self.library.entity.BookExample;
 import com.self.library.entity.PublishEntity;
 import com.self.library.entity.PublishExample;
 import com.self.library.service.PublishService;
@@ -31,6 +33,9 @@ public class PublishServiceImpl implements PublishService
 {
     @Autowired
     private PublishDao publishDao;
+
+    @Autowired
+    private BookDao bookDao;
 
     @Override
     public Integer save(PublishEntity entity)
@@ -165,7 +170,11 @@ public class PublishServiceImpl implements PublishService
     {
         try
         {
-            return publishDao.deleteByPrimaryKey(id);
+            BookExample example = new BookExample();
+            BookExample.Criteria criteria = example.createCriteria();
+            criteria.andPublishIdEqualTo(id);
+            Long count = bookDao.countByExample(example);
+            return (count != null && count > 0) ? -1 : publishDao.deleteByPrimaryKey(id);
         }
         catch (Exception e)
         {

@@ -151,6 +151,10 @@ public class TagController
                 {
                     return new ResultDTO<>(LibraryConstant.DELETE_FAIL, ResultDTO.FAIL);
                 }
+                else if (count == -1)
+                {
+                    return new ResultDTO<>(LibraryConstant.TAG_HAVE_BOOK, ResultDTO.FAIL);
+                }
             }
         }
         catch (Exception e)

@@ -157,6 +157,10 @@ public class BookController
                 {
                     return new ResultDTO<>(LibraryConstant.DELETE_FAIL, ResultDTO.FAIL);
                 }
+                else if (count == -1)
+                {
+                    return new ResultDTO<>(LibraryConstant.BOOK_HAVE_BORROW, ResultDTO.FAIL);
+                }
             }
         }
         catch (Exception e)

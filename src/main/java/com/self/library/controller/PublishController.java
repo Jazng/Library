@@ -150,6 +150,10 @@ public class PublishController
                 {
                     return new ResultDTO<>(LibraryConstant.DELETE_FAIL, ResultDTO.FAIL);
                 }
+                else if (count == -1)
+                {
+                    return new ResultDTO<>(LibraryConstant.PUBLISH_HAVE_BOOK, ResultDTO.FAIL);
+                }
             }
         }
         catch (Exception e)

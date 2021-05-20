@@ -434,7 +434,11 @@ public class BookServiceImpl implements BookService
     {
         try
         {
-            return bookDao.deleteByPrimaryKey(id);
+            BorrowExample example = new BorrowExample();
+            BorrowExample.Criteria criteria = example.createCriteria();
+            criteria.andBookIdEqualTo(id);
+            Long count = borrowDao.countByExample(example);
+            return (count != null && count > 0) ? -1 : bookDao.deleteByPrimaryKey(id);
         }
         catch (Exception e)
         {

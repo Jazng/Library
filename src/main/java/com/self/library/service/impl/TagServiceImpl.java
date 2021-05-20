@@ -220,7 +220,11 @@ public class TagServiceImpl implements TagService
     {
         try
         {
-            return tagDao.deleteByPrimaryKey(id);
+            BookExample example = new BookExample();
+            BookExample.Criteria criteria = example.createCriteria();
+            criteria.andTagIdEqualTo(id);
+            Long count = bookDao.countByExample(example);
+            return (count != null && count > 0) ? -1 : tagDao.deleteByPrimaryKey(id);
         }
         catch (Exception e)
         {
