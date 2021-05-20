@@ -79,7 +79,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, serial_no, name, sex, age, phone, address, book_id, count, borrow_day, return_date, 
+    id, serial_no, `name`, sex, age, phone, address, book_id, `count`, borrow_day, return_date,
     status, actual_date, create_user, create_date, modify_user, modify_date
   </sql>
   <select id="selectByExample" parameterType="com.self.library.entity.BorrowExample" resultMap="BaseResultMap">
@@ -113,9 +113,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.self.library.entity.BorrowEntity">
-    insert into t_borrow (id, serial_no, name, 
+    insert into t_borrow (id, serial_no, `name`,
       sex, age, phone, address, 
-      book_id, count, borrow_day, 
+      book_id, `count`, borrow_day,
       return_date, status, actual_date, 
       create_user, create_date, modify_user, 
       modify_date)
@@ -136,7 +136,7 @@
         serial_no,
       </if>
       <if test="name != null">
-        name,
+        `name`,
       </if>
       <if test="sex != null">
         sex,
@@ -154,7 +154,7 @@
         book_id,
       </if>
       <if test="count != null">
-        count,
+        `count`,
       </if>
       <if test="borrowDay != null">
         borrow_day,
@@ -251,7 +251,7 @@
         serial_no = #{record.serialNo,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        `name` = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.sex != null">
         sex = #{record.sex,jdbcType=INTEGER},
@@ -269,7 +269,7 @@
         book_id = #{record.bookId,jdbcType=INTEGER},
       </if>
       <if test="record.count != null">
-        count = #{record.count,jdbcType=INTEGER},
+        `count` = #{record.count,jdbcType=INTEGER},
       </if>
       <if test="record.borrowDay != null">
         borrow_day = #{record.borrowDay,jdbcType=INTEGER},
@@ -304,13 +304,13 @@
     update t_borrow
     set id = #{record.id,jdbcType=INTEGER},
       serial_no = #{record.serialNo,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=INTEGER},
       age = #{record.age,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR},
       address = #{record.address,jdbcType=VARCHAR},
       book_id = #{record.bookId,jdbcType=INTEGER},
-      count = #{record.count,jdbcType=INTEGER},
+      `count` = #{record.count,jdbcType=INTEGER},
       borrow_day = #{record.borrowDay,jdbcType=INTEGER},
       return_date = #{record.returnDate,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER},
@@ -330,7 +330,7 @@
         serial_no = #{serialNo,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+        `name` = #{name,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=INTEGER},
@@ -348,7 +348,7 @@
         book_id = #{bookId,jdbcType=INTEGER},
       </if>
       <if test="count != null">
-        count = #{count,jdbcType=INTEGER},
+        `count` = #{count,jdbcType=INTEGER},
       </if>
       <if test="borrowDay != null">
         borrow_day = #{borrowDay,jdbcType=INTEGER},
@@ -380,13 +380,13 @@
   <update id="updateByPrimaryKey" parameterType="com.self.library.entity.BorrowEntity">
     update t_borrow
     set serial_no = #{serialNo,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=INTEGER},
       age = #{age,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       book_id = #{bookId,jdbcType=INTEGER},
-      count = #{count,jdbcType=INTEGER},
+      `count` = #{count,jdbcType=INTEGER},
       borrow_day = #{borrowDay,jdbcType=INTEGER},
       return_date = #{returnDate,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER},

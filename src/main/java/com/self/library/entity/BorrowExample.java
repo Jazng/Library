@@ -287,85 +287,85 @@ public class BorrowExample
 
         public Criteria andNameIsNull()
         {
-            addCriterion("name is null");
+            addCriterion("`name` is null");
             return (Criteria) this;
         }
 
         public Criteria andNameIsNotNull()
         {
-            addCriterion("name is not null");
+            addCriterion("`name` is not null");
             return (Criteria) this;
         }
 
         public Criteria andNameEqualTo(String value)
         {
-            addCriterion("name =", value, "name");
+            addCriterion("`name` =", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameNotEqualTo(String value)
         {
-            addCriterion("name <>", value, "name");
+            addCriterion("`name` <>", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameGreaterThan(String value)
         {
-            addCriterion("name >", value, "name");
+            addCriterion("`name` >", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameGreaterThanOrEqualTo(String value)
         {
-            addCriterion("name >=", value, "name");
+            addCriterion("`name` >=", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameLessThan(String value)
         {
-            addCriterion("name <", value, "name");
+            addCriterion("`name` <", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameLessThanOrEqualTo(String value)
         {
-            addCriterion("name <=", value, "name");
+            addCriterion("`name` <=", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameLike(String value)
         {
-            addCriterion("name like", value, "name");
+            addCriterion("`name` like", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameNotLike(String value)
         {
-            addCriterion("name not like", value, "name");
+            addCriterion("`name` not like", value, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameIn(List<String> values)
         {
-            addCriterion("name in", values, "name");
+            addCriterion("`name` in", values, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameNotIn(List<String> values)
         {
-            addCriterion("name not in", values, "name");
+            addCriterion("`name` not in", values, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameBetween(String value1, String value2)
         {
-            addCriterion("name between", value1, value2, "name");
+            addCriterion("`name` between", value1, value2, "name");
             return (Criteria) this;
         }
 
         public Criteria andNameNotBetween(String value1, String value2)
         {
-            addCriterion("name not between", value1, value2, "name");
+            addCriterion("`name` not between", value1, value2, "name");
             return (Criteria) this;
         }
 
@@ -755,73 +755,73 @@ public class BorrowExample
 
         public Criteria andCountIsNull()
         {
-            addCriterion("count is null");
+            addCriterion("`count` is null");
             return (Criteria) this;
         }
 
         public Criteria andCountIsNotNull()
         {
-            addCriterion("count is not null");
+            addCriterion("`count` is not null");
             return (Criteria) this;
         }
 
         public Criteria andCountEqualTo(Integer value)
         {
-            addCriterion("count =", value, "count");
+            addCriterion("`count` =", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountNotEqualTo(Integer value)
         {
-            addCriterion("count <>", value, "count");
+            addCriterion("`count` <>", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountGreaterThan(Integer value)
         {
-            addCriterion("count >", value, "count");
+            addCriterion("`count` >", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountGreaterThanOrEqualTo(Integer value)
         {
-            addCriterion("count >=", value, "count");
+            addCriterion("`count` >=", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountLessThan(Integer value)
         {
-            addCriterion("count <", value, "count");
+            addCriterion("`count` <", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountLessThanOrEqualTo(Integer value)
         {
-            addCriterion("count <=", value, "count");
+            addCriterion("`count` <=", value, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountIn(List<Integer> values)
         {
-            addCriterion("count in", values, "count");
+            addCriterion("`count` in", values, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountNotIn(List<Integer> values)
         {
-            addCriterion("count not in", values, "count");
+            addCriterion("`count` not in", values, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountBetween(Integer value1, Integer value2)
         {
-            addCriterion("count between", value1, value2, "count");
+            addCriterion("`count` between", value1, value2, "count");
             return (Criteria) this;
         }
 
         public Criteria andCountNotBetween(Integer value1, Integer value2)
         {
-            addCriterion("count not between", value1, value2, "count");
+            addCriterion("`count` not between", value1, value2, "count");
             return (Criteria) this;
         }
 

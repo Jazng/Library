@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,9 +16,9 @@ import java.util.Date;
  */
 @Data
 @ApiModel("借阅返回封装")
-public class BorrowOutDTO implements Serializable
+public class BorrowOutDTO extends BaseDTO
 {
-    private static final long serialVersionUID = -8554500009731792922L;
+    private static final long serialVersionUID = 9116702765733514071L;
 
     @ApiModelProperty(value = "借阅ID", example = "1")
     private Integer id;

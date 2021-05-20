@@ -227,7 +227,23 @@ public class BorrowServiceImpl implements BorrowService
                 Date endActualDate = entity.getEndActualDate();
                 boolean actualDate = startActualDate != null && endActualDate != null;
                 List<BookEntity> books = entity.getBooks();
-                List<Integer> bookIds = books.stream().map(BookEntity::getId).collect(Collectors.toList());
+                List<String> bookNames = null;
+                if (CollectionUtils.isNotEmpty(books))
+                {
+                    bookNames = books.stream().map(BookEntity::getBookName).distinct().collect(Collectors.toList());
+                }
+                List<Integer> bookIds = null;
+                if (CollectionUtils.isNotEmpty(bookNames))
+                {
+                    BookExample bookExample = new BookExample();
+                    BookExample.Criteria criteria = bookExample.createCriteria();
+                    criteria.andBookNameIn(bookNames);
+                    List<BookEntity> bookList = bookDao.selectByExample(bookExample);
+                    if (CollectionUtils.isNotEmpty(bookList))
+                    {
+                        bookIds = bookList.stream().map(BookEntity::getId).distinct().collect(Collectors.toList());
+                    }
+                }
                 BorrowExample.Criteria criteria = null;
                 //查询条件
                 if (StringUtils.isNotBlank(name) || sex != null || age != null || StringUtils.isNotBlank(phone) || StringUtils.isNotBlank(address)
@@ -300,20 +316,19 @@ public class BorrowServiceImpl implements BorrowService
             List<BorrowOutDTO> borrowOutDTOS = new ArrayList<>();
             if (CollectionUtils.isNotEmpty(bookList))
             {
-                first:
                 for (BorrowEntity borrow : list)
                 {
+                    BorrowOutDTO borrowOutDTO = new BorrowOutDTO();
+                    BeanUtils.copyProperties(borrow, borrowOutDTO);
                     for (BookEntity book : bookList)
                     {
                         if (borrow.getBookId().equals(book.getId()))
                         {
-                            BorrowOutDTO borrowOutDTO = new BorrowOutDTO();
-                            BeanUtils.copyProperties(borrow, borrowOutDTO);
                             borrowOutDTO.setBook(book);
-                            borrowOutDTOS.add(borrowOutDTO);
-                            continue first;
+                            break;
                         }
                     }
+                    borrowOutDTOS.add(borrowOutDTO);
                 }
             }
             if (CollectionUtils.isNotEmpty(borrowOutDTOS))
@@ -476,20 +491,19 @@ public class BorrowServiceImpl implements BorrowService
             }
             if (CollectionUtils.isNotEmpty(books))
             {
-                first:
                 for (BorrowEntity borrow : findList)
                 {
+                    BorrowOutDTO borrowOutDTO = new BorrowOutDTO();
+                    BeanUtils.copyProperties(borrow, borrowOutDTO);
                     for (BookEntity book : books)
                     {
                         if (borrow.getBookId().equals(book.getId()))
                         {
-                            BorrowOutDTO borrowOutDTO = new BorrowOutDTO();
-                            BeanUtils.copyProperties(borrow, borrowOutDTO);
                             borrowOutDTO.setBook(book);
-                            list.add(borrowOutDTO);
-                            continue first;
+                            break;
                         }
                     }
+                    list.add(borrowOutDTO);
                 }
             }
         }
@@ -521,20 +535,19 @@ public class BorrowServiceImpl implements BorrowService
             }
             if (CollectionUtils.isNotEmpty(books))
             {
-                first:
                 for (BorrowEntity borrow : borrows)
                 {
+                    BorrowOutDTO borrowOutDTO = new BorrowOutDTO();
+                    BeanUtils.copyProperties(borrow, borrowOutDTO);
                     for (BookEntity book : books)
                     {
                         if (borrow.getBookId().equals(book.getId()))
                         {
-                            BorrowOutDTO borrowOutDTO = new BorrowOutDTO();
-                            BeanUtils.copyProperties(borrow, borrowOutDTO);
                             borrowOutDTO.setBook(book);
-                            list.add(borrowOutDTO);
-                            continue first;
+                            break;
                         }
                     }
+                    list.add(borrowOutDTO);
                 }
             }
         }

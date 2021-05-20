@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
 import com.self.library.dto.PageDTO;
 import com.self.library.dto.ResultDTO;
+import com.self.library.dto.TagDTO;
 import com.self.library.entity.TagEntity;
 import com.self.library.service.TagService;
 import com.self.library.utils.JWTUtils;
@@ -95,7 +96,7 @@ public class TagController
     @PostMapping("/page")
     @ApiOperation("分页和模糊查询查询接口")
     @ApiImplicitParam(name = "page", value = "分页和模糊查询条件信息包装", required = true)
-    public ResultDTO<PageInfo<TagEntity>> page(@RequestBody PageDTO<TagEntity> page)
+    public ResultDTO<PageInfo<TagDTO>> page(@RequestBody PageDTO<TagEntity> page)
     {
         try
         {
@@ -115,7 +116,7 @@ public class TagController
     @GetMapping("/findById")
     @ApiOperation("根据ID查询标签接口")
     @ApiImplicitParam(name = "id", value = "标签ID", required = true, dataType = "integer", defaultValue = "1", example = "2")
-    public ResultDTO<TagEntity> findById(@RequestParam("id") Integer id)
+    public ResultDTO<TagDTO> findById(@RequestParam("id") Integer id)
     {
         try
         {
@@ -191,7 +192,7 @@ public class TagController
 
     @GetMapping("/findAll")
     @ApiOperation("查询所有标签接口")
-    public ResultDTO<ArrayList<TagEntity>> findAll()
+    public ResultDTO<ArrayList<TagDTO>> findAll()
     {
         try
         {

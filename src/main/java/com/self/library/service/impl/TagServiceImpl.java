@@ -3,18 +3,24 @@ package com.self.library.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.self.library.constant.LibraryConstant;
+import com.self.library.dao.BookDao;
 import com.self.library.dao.TagDao;
 import com.self.library.dto.PageDTO;
+import com.self.library.dto.TagDTO;
+import com.self.library.entity.BookEntity;
+import com.self.library.entity.BookExample;
 import com.self.library.entity.TagEntity;
 import com.self.library.entity.TagExample;
 import com.self.library.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +37,9 @@ public class TagServiceImpl implements TagService
 {
     @Autowired
     private TagDao tagDao;
+
+    @Autowired
+    private BookDao bookDao;
 
     @Override
     public Integer save(TagEntity entity)
@@ -98,9 +107,9 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public PageInfo<TagEntity> page(PageDTO<TagEntity> page)
+    public PageInfo<TagDTO> page(PageDTO<TagEntity> page)
     {
-        PageInfo<TagEntity> pageInfo = null;
+        PageInfo<TagDTO> pageInfo = null;
         try
         {
             //没传赋予默认值
@@ -137,7 +146,42 @@ public class TagServiceImpl implements TagService
             //分页
             PageHelper.startPage(page.getPageNum(), page.getPageSize());
             List<TagEntity> list = tagDao.selectByExample(example);
-            pageInfo = new PageInfo<>(list);
+            PageInfo<TagEntity> tagPage = new PageInfo<>(list);
+            pageInfo = new PageInfo<>();
+            BeanUtils.copyProperties(tagPage, pageInfo);
+            List<Integer> ids = null;
+            if (CollectionUtils.isNotEmpty(list))
+            {
+                ids = list.stream().map(TagEntity::getId).distinct().collect(Collectors.toList());
+            }
+            List<BookEntity> books = null;
+            if (CollectionUtils.isNotEmpty(ids))
+            {
+                BookExample bookExample = new BookExample();
+                BookExample.Criteria criteria = bookExample.createCriteria();
+                criteria.andTagIdIn(ids);
+                books = bookDao.selectByExample(bookExample);
+            }
+            List<TagDTO> tagList = new ArrayList<>();
+            if (CollectionUtils.isNotEmpty(books))
+            {
+                for (TagEntity tag : list)
+                {
+                    TagDTO tagDTO = new TagDTO();
+                    BeanUtils.copyProperties(tag, tagDTO);
+                    List<BookEntity> bookList = new ArrayList<>();
+                    for (BookEntity book : books)
+                    {
+                        if (book.getTagId().equals(tag.getId()))
+                        {
+                            bookList.add(book);
+                        }
+                    }
+                    tagDTO.setBooks(bookList);
+                    tagList.add(tagDTO);
+                }
+            }
+            pageInfo.setList(tagList);
         }
         catch (Exception e)
         {
@@ -147,11 +191,22 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public TagEntity findById(Integer id)
+    public TagDTO findById(Integer id)
     {
         try
         {
-            return tagDao.selectByPrimaryKey(id);
+            TagEntity tag = tagDao.selectByPrimaryKey(id);
+            TagDTO tagDTO = new TagDTO();
+            if (tag != null)
+            {
+                BeanUtils.copyProperties(tag, tagDTO);
+                BookExample bookExample = new BookExample();
+                BookExample.Criteria criteria = bookExample.createCriteria();
+                criteria.andTagIdEqualTo(tag.getId());
+                List<BookEntity> books = bookDao.selectByExample(bookExample);
+                tagDTO.setBooks(books);
+            }
+            return tagDTO;
         }
         catch (Exception e)
         {
@@ -189,8 +244,49 @@ public class TagServiceImpl implements TagService
     }
 
     @Override
-    public List<TagEntity> findAll()
+    public List<TagDTO> findAll()
     {
-        return tagDao.selectByExample(new TagExample());
+        try
+        {
+            List<TagEntity> list = tagDao.selectByExample(new TagExample());
+            List<Integer> ids = null;
+            if (CollectionUtils.isNotEmpty(list))
+            {
+                ids = list.stream().map(TagEntity::getId).distinct().collect(Collectors.toList());
+            }
+            List<BookEntity> books = null;
+            if (CollectionUtils.isNotEmpty(ids))
+            {
+                BookExample bookExample = new BookExample();
+                BookExample.Criteria criteria = bookExample.createCriteria();
+                criteria.andTagIdIn(ids);
+                books = bookDao.selectByExample(bookExample);
+            }
+            List<TagDTO> tagList = new ArrayList<>();
+            if (CollectionUtils.isNotEmpty(books))
+            {
+                for (TagEntity tag : list)
+                {
+                    TagDTO tagDTO = new TagDTO();
+                    BeanUtils.copyProperties(tag, tagDTO);
+                    List<BookEntity> bookList = new ArrayList<>();
+                    for (BookEntity book : books)
+                    {
+                        if (book.getTagId().equals(tag.getId()))
+                        {
+                            bookList.add(book);
+                        }
+                    }
+                    tagDTO.setBooks(bookList);
+                    tagList.add(tagDTO);
+                }
+            }
+            return tagList;
+        }
+        catch (Exception e)
+        {
+            log.error(LibraryConstant.QUERY_ERROR);
+        }
+        return null;
     }
 }

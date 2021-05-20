@@ -2,6 +2,7 @@ package com.self.library.service;
 
 import com.github.pagehelper.PageInfo;
 import com.self.library.dto.PageDTO;
+import com.self.library.dto.TagDTO;
 import com.self.library.entity.TagEntity;
 
 import java.util.List;
@@ -19,13 +20,13 @@ public interface TagService
 
     Integer saveList(List<TagEntity> entities);
 
-    PageInfo<TagEntity> page(PageDTO<TagEntity> page);
+    PageInfo<TagDTO> page(PageDTO<TagEntity> page);
 
-    TagEntity findById(Integer id);
+    TagDTO findById(Integer id);
 
     Integer delete(Integer id);
 
     Integer modify(TagEntity entity);
 
-    List<TagEntity> findAll();
+    List<TagDTO> findAll();
 }
